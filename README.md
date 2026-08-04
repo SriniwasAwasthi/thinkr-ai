@@ -218,20 +218,40 @@ else if (level === 5) interval = 30;// Mastered
 
 ---
 
-## 🤖 API Integration (Google Gemini AI Specs)
+## 🤖 API Integration & Google Gemini Key Setup
 
-THINKR AI supports seamless integration with **Google Gemini API**:
-- **Supported Models:** `gemini-1.5-flash`, `gemini-1.5-pro`, `gemini-2.0-flash-exp`.
-- **Setup:** Click **`⚙️ Settings`** in the navigation bar and paste your Gemini API key (`AIzaSy...`).
-- **Privacy Guarantee:** Your API key is stored strictly in your browser's private `localStorage` (`thinkr_gemini_api_key`) and is **never** sent to any external backend server.
+> [!IMPORTANT]
+> **Getting a Google Gemini API Key is 100% FREE!** You do **NOT** need to pay, enter credit card details, or purchase a subscription. Google provides a generous free tier for developers and students.
+
+### 🔑 How to Get Your FREE Gemini API Key (Step-by-Step):
+
+1. **Visit Google AI Studio:** Go to **[aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)**.
+2. **Sign In:** Log in with your standard Google account.
+3. **Create Key:** Click **`Create API key`** $\rightarrow$ Select any project $\rightarrow$ Copy your generated API key (it starts with `AIzaSy...`).
+
+---
+
+### ⚙️ How to Insert Your API Key in THINKR AI:
+
+1. Open **THINKR AI** in your web browser.
+2. Click **`⚙️ Settings`** in the top navigation header bar.
+3. Paste your copied API key into the **Google Gemini API Key** input field.
+4. Click **`Save Settings`**.
+
+> [!NOTE]
+> **Zero Cost & Out-of-the-Box Local Fallback:**  
+> If you do not enter an API key, THINKR AI will automatically run using its built-in **Local Academic Knowledge Engine** so you can still study, use flashcards, and run focus soundscapes completely free without an internet API connection!
 
 ---
 
 ## 🛡️ Security & Credential Notes
 
-- **Zero Server Storage of API Keys:** API keys remain strictly client-side.
-- **No External Audio Assets:** Audio is synthesized in-memory via the Web Audio API, eliminating tracking or external request risks.
-- **Local State Independence:** All flashcards, thoughts, spaced repetition schedules, and streak metrics reside safely in browser `localStorage`.
+> [!CAUTION]
+> **API Key Privacy & Security Protection:**  
+> - **Client-Side Storage Only:** Your Gemini API Key is saved strictly inside your own browser's private `localStorage` (`thinkr_gemini_api_key`).
+> - **Zero Backend Transmission:** The Flask backend server (`app.py`) never stores, logs, or transmits your API keys.
+> - **GitHub Safe:** No API keys are hardcoded in this codebase or pushed to GitHub.
+
 
 ---
 
