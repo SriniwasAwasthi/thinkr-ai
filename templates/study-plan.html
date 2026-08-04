@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Workspace - THINKR AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="container">
+        <header>
+            <h1 class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">THINKR <span class="accent">AI</span></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="study-plan.html">Study Workspace</a></li>
+                    <li><a href="tools.html">Tools Suite</a></li>
+                    <li><span class="streak-badge-display" style="padding: 0.4rem 0.8rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981; font-size: 0.85rem; font-weight: 700;">🔥 1 Day</span></li>
+                    <li><button id="settingsBtn" class="settings-nav-btn" title="API Key & Settings">⚙️ Settings</button></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="dashboard-grid">
+                <!-- Left Column: Generator, Scratchpad, Spaced Repetition & Exam Tracker -->
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <!-- Generator Card -->
+                    <div class="card" style="padding: 0; overflow: hidden;">
+                        <img src="/static/images/schedule.png" alt="Student Planning Schedule" style="width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="padding: 1.8rem;">
+                            <h2 style="margin-bottom: 1.2rem; font-size: 1.5rem;">⚡ AI Plan Generator</h2>
+                            <form id="studyPlanForm">
+                                <div class="form-group">
+                                    <label for="subjects">Subjects / Topics (comma separated)</label>
+                                    <input type="text" id="subjects" required placeholder="e.g. Quantum Physics, Organic Chem, Calculus">
+                                </div>
+                                <div class="form-group">
+                                    <label for="time">Available Time (Hours)</label>
+                                    <input type="number" id="time" min="0.5" max="24" step="0.5" required value="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusInterval">Focus Interval Strategy</label>
+                                    <select id="focusInterval" class="form-select">
+                                        <option value="balanced">Standard Split (Balanced Focus)</option>
+                                        <option value="pomodoro_25">Pomodoro Sprints (25m Focus / 5m Break)</option>
+                                        <option value="deep_50">Deep Work Blocks (50m Focus / 10m Break)</option>
+                                        <option value="standard_45">Standard Revision (45m Focus / 15m Break)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="learningTechnique">Primary Cognitive Technique</label>
+                                    <select id="learningTechnique" class="form-select">
+                                        <option value="active_recall">Active Recall & Self-Testing</option>
+                                        <option value="feynman">Feynman Technique (Simple Explanation)</option>
+                                        <option value="spaced">Spaced Repetition Mapping</option>
+                                        <option value="practice">Practice Exercise Drills</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="startTime">Schedule Start Time</label>
+                                    <input type="time" id="startTime" value="09:00">
+                                </div>
+                                <button type="submit" class="cta-button" style="width: 100%; margin-top: 0.5rem;" id="generateBtn">Build Cognitive Pathway</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Spaced Repetition Memory Engine Card -->
+                    <div class="card" id="spacedRepetitionCard">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <h3 style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem;">
+                                📅 Spaced Repetition Memory Engine
+                            </h3>
+                            <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">SuperMemo SM-2</span>
+                        </div>
+                        <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1.2rem;">
+                            Calculate optimal review intervals, track memory retention decay, save active topics, and sync to your calendar.
+                        </p>
+
+                        <!-- Topic Input -->
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label for="srSubject">Topic / Subject Name</label>
+                            <input type="text" id="srSubject" class="form-select" placeholder="e.g. Operating System, Quantum Mechanics, Organic Chemistry">
+                        </div>
+
+                        <!-- Mastery Level Buttons -->
+                        <div style="margin-bottom: 1.2rem;">
+                            <label style="font-size: 0.85rem; color: #a3a3a3; display: block; margin-bottom: 0.5rem;">Recall Quality / Confidence Score</label>
+                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;" id="srRatingGroup">
+                                <button class="sr-rating-btn secondary-btn" data-level="1" data-days="1" title="Again: High Risk / Forgotten (Review in 1 day)">🔴 1 - Again</button>
+                                <button class="sr-rating-btn secondary-btn" data-level="2" data-days="2" title="Hard: Remembered with difficulty (Review in 2 days)">🟠 2 - Hard</button>
+                                <button class="sr-rating-btn secondary-btn active-preset" data-level="3" data-days="4" title="Good: Remembered with effort (Review in 4 days)" style="background: rgba(99,102,241,0.3); border-color: #6366f1;">🟡 3 - Good</button>
+                                <button class="sr-rating-btn secondary-btn" data-level="4" data-days="7" title="Easy: Instant recall (Review in 7 days)">🟢 4 - Easy</button>
+                                <button class="sr-rating-btn secondary-btn" data-level="5" data-days="14" title="Mastered: Permanent retention (Review in 14 days)">🚀 5 - Mastered</button>
+                            </div>
+                        </div>
+
+                        <button id="calcSpacedBtn" class="cta-button" style="width: 100%; margin-bottom: 1.2rem; padding: 0.75rem; font-size: 0.95rem;">Calculate Schedule & Track Topic</button>
+
+                        <!-- Calculation Results & Forgetting Curve Gauge -->
+                        <div id="spacedResults" style="display: none; background: rgba(0,0,0,0.35); border: 1px solid rgba(99,102,241,0.25); padding: 1.2rem; border-radius: 12px; font-size: 0.88rem; margin-bottom: 1.2rem;">
+                            <!-- Schedule Output & Forgetting Curve Gauge Injected Here -->
+                        </div>
+
+                        <!-- Saved Active Spaced Repetition Topics List -->
+                        <div id="srSavedDeckContainer" style="margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                <h4 style="font-size: 0.9rem; color: #818cf8; display: flex; align-items: center; gap: 0.4rem;">
+                                    📌 Tracked Review Topics (<span id="srTrackedCount">0</span>)
+                                </h4>
+                                <button id="clearSrDeckBtn" class="secondary-btn" style="padding: 0.2rem 0.6rem; font-size: 0.75rem;">Clear All</button>
+                            </div>
+                            <div id="srTrackedList" style="display: flex; flex-direction: column; gap: 0.6rem; max-height: 220px; overflow-y: auto;">
+                                <!-- Tracked Topics Injected Here -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Exam Countdown & Syllabus Quota Calculator Card -->
+                    <div class="card" id="examTrackerCard">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <h3 style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem;">
+                                🎯 Exam Syllabus & Milestone Planner
+                            </h3>
+                            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Pacing Calculator</span>
+                        </div>
+                        <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1.2rem;">
+                            Enter your target exam date and total syllabus modules to calculate your optimal learning and revision timeline.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="examName">Exam / Subject Name</label>
+                            <input type="text" id="examName" class="form-select" placeholder="e.g. Java Programming Final">
+                        </div>
+                        <div style="display: flex; gap: 0.8rem; margin-bottom: 1rem;">
+                            <div style="flex: 1;">
+                                <label for="examDate" style="font-size: 0.82rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Target Exam Date</label>
+                                <input type="date" id="examDate" class="form-select">
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="examTopicsCount" style="font-size: 0.82rem; color: #a3a3a3; display: block; margin-bottom: 0.3rem;">Total Syllabus Modules</label>
+                                <input type="number" id="examTopicsCount" min="1" max="100" value="5" class="form-select" style="text-align: center;">
+                            </div>
+                        </div>
+                        <button id="trackExamBtn" class="cta-button" style="width: 100%; padding: 0.75rem; font-size: 0.92rem;">Calculate Mastery Timeline</button>
+                        
+                        <div id="examTrackerResult" style="display: none; margin-top: 1.2rem; background: rgba(0,0,0,0.45); border: 1px solid rgba(99,102,241,0.3); padding: 1.4rem; border-radius: 18px;">
+                            <!-- Stat Chips Row -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.5rem; margin-bottom: 1.2rem; text-align: center;">
+                                <div style="background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); padding: 0.5rem; border-radius: 10px;">
+                                    <div id="examDaysLeftBadge" style="font-size: 1.1rem; font-weight: 800; color: #818cf8;">16 Days</div>
+                                    <div style="font-size: 0.7rem; color: #a3a3a3;">Time Remaining</div>
+                                </div>
+                                <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); padding: 0.5rem; border-radius: 10px;">
+                                    <div id="examQuotaDailyTarget" style="font-size: 1.1rem; font-weight: 800; color: #10b981;">1 Module / 3 Days</div>
+                                    <div style="font-size: 0.7rem; color: #a3a3a3;">Recommended Pace</div>
+                                </div>
+                            </div>
+
+                            <!-- SVG Circular Progress Meter -->
+                            <div class="quota-ring-container">
+                                <svg class="quota-ring-svg" width="140" height="140">
+                                    <circle class="quota-ring-bg" cx="70" cy="70" r="55"></circle>
+                                    <circle id="quotaRingFill" class="quota-ring-fill" cx="70" cy="70" r="55"></circle>
+                                </svg>
+                                <div class="quota-ring-text">
+                                    <div id="quotaRingPercent" style="font-size: 1.6rem; font-weight: 800; color: #ffffff;">0%</div>
+                                    <div style="font-size: 0.7rem; color: #a3a3a3; text-transform: uppercase;">Goal Completed</div>
+                                </div>
+                            </div>
+
+                            <div id="examQuotaText" style="font-size: 0.88rem; color: #d4d4d4; margin: 1rem 0; line-height: 1.6; text-align: left; background: rgba(255,255,255,0.03); padding: 0.9rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);"></div>
+                            
+                            <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                                <button id="incBlockProgressBtn" class="secondary-btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem; background: rgba(16,185,129,0.2); border-color: #10b981; color: #ffffff;">✓ Mark 1 Module Completed</button>
+                                <button id="resetBlockProgressBtn" class="secondary-btn" style="padding: 0.6rem 1rem; font-size: 0.85rem;">🔄 Reset Progress</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thought-Dump Scratchpad Card -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🧠 Distraction & Thought-Dump Pad
+                        </h3>
+                        <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1rem;">
+                            Jot down intrusive thoughts or sudden ideas during study sessions so your mind stays focused.
+                        </p>
+                        <textarea id="thoughtPad" class="thought-textarea" placeholder="Type quick notes or random ideas here..."></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                            <span id="saveStatus" style="font-size: 0.75rem; color: #10b981; opacity: 0; transition: opacity 0.3s;">Saved locally!</span>
+                            <button id="clearThoughtBtn" class="secondary-btn">Clear Pad</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Interactive Schedule & Live Timer -->
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <!-- Live Focus Timer Card (Customizable Duration) -->
+                    <div class="card" id="focusTimerCard">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <h3 style="font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+                                ⏱️ Live Focus Session Timer
+                            </h3>
+                            <span id="timerSubjectBadge" class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3);">SELECT SUBJECT</span>
+                        </div>
+
+                        <!-- Timer Preset Buttons -->
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; justify-content: center;">
+                            <button class="timer-preset-btn secondary-btn" data-mins="5" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;">5m Quick</button>
+                            <button class="timer-preset-btn secondary-btn" data-mins="15" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;">15m Sprint</button>
+                            <button class="timer-preset-btn secondary-btn active-preset" data-mins="25" style="padding: 0.4rem 0.8rem; font-size: 0.82rem; background: rgba(99,102,241,0.3); border-color: #6366f1;">25m Pomodoro</button>
+                            <button class="timer-preset-btn secondary-btn" data-mins="45" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;">45m Focus</button>
+                            <button class="timer-preset-btn secondary-btn" data-mins="60" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;">60m Deep Work</button>
+                        </div>
+
+                        <!-- Custom Duration Form Row -->
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 0.6rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                            <label for="customTimerInput" style="font-size: 0.85rem; color: #a3a3a3;">Custom Minutes:</label>
+                            <input type="number" id="customTimerInput" min="1" max="180" value="25" style="width: 75px; padding: 0.35rem; text-align: center; font-weight: 700;" class="form-select">
+                            <button id="setCustomTimerBtn" class="secondary-btn" style="padding: 0.35rem 0.9rem; font-size: 0.82rem;">Set Duration</button>
+                        </div>
+
+                        <!-- Hero Timer Clock Display -->
+                        <div class="timer-display-container">
+                            <div id="timerDisplay" class="timer-digits">25:00</div>
+                            <p id="timerStatus" style="color: #a3a3a3; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500;">Ready to focus</p>
+                        </div>
+
+                        <!-- Timer Control Buttons -->
+                        <div class="timer-controls">
+                            <button id="startTimerBtn" class="cta-button" style="padding: 0.7rem 1.8rem; font-size: 0.95rem;">⚡ Start Focus</button>
+                            <button id="pauseTimerBtn" class="secondary-btn" style="padding: 0.7rem 1.4rem; font-size: 0.9rem;" disabled>⏸️ Pause</button>
+                            <button id="resetTimerBtn" class="secondary-btn" style="padding: 0.7rem 1.4rem; font-size: 0.9rem;">🔄 Reset</button>
+                        </div>
+                    </div>
+
+
+                    <!-- Plan Timeline Results Card -->
+                    <div class="card" id="planResultContainer" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h2 style="font-size: 1.5rem;">Your AI Study Roadmap</h2>
+                                <p style="color: #a3a3a3; font-size: 0.85rem;" id="planMetadata"></p>
+                            </div>
+                            <!-- Export Tools -->
+                            <div class="export-actions">
+                                <button id="exportIcalBtn" class="icon-btn" title="Export to iCal Calendar">📅 Export iCal</button>
+                                <button id="exportTextBtn" class="icon-btn" title="Download Text Summary">📝 Save Plan</button>
+                                <button id="printPlanBtn" class="icon-btn" title="Print Schedule">🖨️ Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-container">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.3rem; color: #a3a3a3;">
+                                <span>Completion Progress</span>
+                                <span id="progressPercent">0%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div id="planTimeline" class="timeline" style="margin-top: 1.5rem;">
+                            <!-- Dynamic content injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 THINKR AI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⚙️ THINKR Settings & API Key</h3>
+                <button id="closeSettingsBtn" class="close-btn">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <p style="font-size: 0.9rem; color: #a3a3a3; margin-bottom: 1rem;">
+                    Configure your <strong>Google Gemini API Key</strong> to unlock live generative AI reasoning across the Chatbot, Note Summarizer, and Feynman Assistant.
+                </p>
+                <div class="form-group">
+                    <label for="geminiApiKeyInput">Google Gemini API Key</label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." style="font-family: monospace;">
+                </div>
+                <div id="apiKeyStatus" style="font-size: 0.8rem; margin-bottom: 1.2rem;">Checking status...</div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                    <button id="saveSettingsBtn" class="cta-button" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Live Focus Timer Logic ---
+            let timerInterval = null;
+            let timerSeconds = 25 * 60;
+            let initialSeconds = 25 * 60;
+            let isTimerRunning = false;
+
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerStatus = document.getElementById('timerStatus');
+            const startTimerBtn = document.getElementById('startTimerBtn');
+            const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+            const resetTimerBtn = document.getElementById('resetTimerBtn');
+            const timerSubjectBadge = document.getElementById('timerSubjectBadge');
+            const customTimerInput = document.getElementById('customTimerInput');
+            const setCustomTimerBtn = document.getElementById('setCustomTimerBtn');
+
+            function updateTimerDigits() {
+                if (!timerDisplay) return;
+                const mins = Math.floor(timerSeconds / 60);
+                const secs = timerSeconds % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            function setDuration(minutes) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                if (startTimerBtn) startTimerBtn.disabled = false;
+                if (pauseTimerBtn) pauseTimerBtn.disabled = true;
+                initialSeconds = Math.max(1, minutes) * 60;
+                timerSeconds = initialSeconds;
+                updateTimerDigits();
+                if (timerStatus) timerStatus.textContent = `Set to ${minutes} min focus`;
+                if (customTimerInput) customTimerInput.value = minutes;
+            }
+
+            document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.timer-preset-btn').forEach(b => {
+                        b.classList.remove('active-preset');
+                        b.style.background = 'transparent';
+                        b.style.borderColor = 'rgba(255,255,255,0.1)';
+                    });
+                    btn.classList.add('active-preset');
+                    btn.style.background = 'rgba(99,102,241,0.3)';
+                    btn.style.borderColor = '#6366f1';
+                    const mins = parseInt(btn.getAttribute('data-mins'), 10);
+                    setDuration(mins);
+                });
+            });
+
+            if (setCustomTimerBtn && customTimerInput) {
+                setCustomTimerBtn.addEventListener('click', () => {
+                    const mins = parseInt(customTimerInput.value, 10);
+                    if (mins && mins > 0) {
+                        setDuration(mins);
+                    } else {
+                        alert('Please enter valid duration in minutes!');
+                    }
+                });
+            }
+
+            function playBeep() {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.8);
+                } catch(e) {}
+            }
+
+            if (startTimerBtn) {
+                startTimerBtn.addEventListener('click', () => {
+                    if (!isTimerRunning) {
+                        isTimerRunning = true;
+                        startTimerBtn.disabled = true;
+                        if (pauseTimerBtn) pauseTimerBtn.disabled = false;
+                        if (timerStatus) timerStatus.textContent = 'Focusing... 🔥';
+                        
+                        timerInterval = setInterval(() => {
+                            if (timerSeconds > 0) {
+                                timerSeconds--;
+                                updateTimerDigits();
+                            } else {
+                                clearInterval(timerInterval);
+                                isTimerRunning = false;
+                                startTimerBtn.disabled = false;
+                                if (pauseTimerBtn) pauseTimerBtn.disabled = true;
+                                if (timerStatus) timerStatus.textContent = 'Session Complete! Take a break 🎉';
+                                playBeep();
+                                alert('Focus Session Complete! Great work.');
+                                if (window.checkFatigueAdvisorTrigger) window.checkFatigueAdvisorTrigger();
+                            }
+                        }, 1000);
+                    }
+                });
+            }
+
+            if (pauseTimerBtn) {
+                pauseTimerBtn.addEventListener('click', () => {
+                    if (isTimerRunning) {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        if (startTimerBtn) startTimerBtn.disabled = false;
+                        pauseTimerBtn.disabled = true;
+                        if (timerStatus) timerStatus.textContent = 'Paused ⏸️';
+                    }
+                });
+            }
+
+            if (resetTimerBtn) {
+                resetTimerBtn.addEventListener('click', () => {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    timerSeconds = initialSeconds;
+                    updateTimerDigits();
+                    if (startTimerBtn) startTimerBtn.disabled = false;
+                    if (pauseTimerBtn) pauseTimerBtn.disabled = true;
+                    if (timerStatus) timerStatus.textContent = 'Ready to focus';
+                });
+            }
+
+            // --- Scratchpad Local Storage ---
+            const thoughtPad = document.getElementById('thoughtPad');
+            const saveStatus = document.getElementById('saveStatus');
+            const clearThoughtBtn = document.getElementById('clearThoughtBtn');
+
+            if (thoughtPad) {
+                thoughtPad.value = localStorage.getItem('thinkr_thoughts') || '';
+
+                let saveTimeout;
+                thoughtPad.addEventListener('input', () => {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        localStorage.setItem('thinkr_thoughts', thoughtPad.value);
+                        if (saveStatus) {
+                            saveStatus.style.opacity = '1';
+                            setTimeout(() => { saveStatus.style.opacity = '0'; }, 2000);
+                        }
+                    }, 600);
+                });
+            }
+
+            if (clearThoughtBtn && thoughtPad) {
+                clearThoughtBtn.addEventListener('click', () => {
+                    thoughtPad.value = '';
+                    localStorage.removeItem('thinkr_thoughts');
+                });
+            }
+
+            // --- Advanced Spaced Repetition Memory Engine ---
+            let selectedSrLevel = 3;
+            let selectedSrDays = 4;
+
+            document.querySelectorAll('.sr-rating-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.sr-rating-btn').forEach(b => {
+                        b.classList.remove('active-preset');
+                        b.style.background = 'transparent';
+                        b.style.borderColor = 'rgba(255,255,255,0.15)';
+                    });
+                    btn.classList.add('active-preset');
+                    btn.style.background = 'rgba(99,102,241,0.3)';
+                    btn.style.borderColor = '#6366f1';
+                    selectedSrLevel = parseInt(btn.getAttribute('data-level'), 10);
+                    selectedSrDays = parseInt(btn.getAttribute('data-days'), 10);
+                });
+            });
+
+            function loadSrTopics() {
+                try {
+                    return JSON.parse(localStorage.getItem('thinkr_sr_topics')) || [];
+                } catch(e) {
+                    return [];
+                }
+            }
+
+            function saveSrTopics(topics) {
+                localStorage.setItem('thinkr_sr_topics', JSON.stringify(topics));
+                renderSrTopics();
+            }
+
+            function renderSrTopics() {
+                const topics = loadSrTopics();
+                const listDiv = document.getElementById('srTrackedList');
+                const countSpan = document.getElementById('srTrackedCount');
+
+                if (countSpan) countSpan.textContent = topics.length;
+                if (!listDiv) return;
+
+                if (topics.length === 0) {
+                    listDiv.innerHTML = '<p style="color:#a3a3a3; font-size:0.8rem; text-align:center; padding:0.5rem;">No tracked topics yet. Calculate a schedule above to track it!</p>';
+                    return;
+                }
+
+                let html = '';
+                const today = new Date();
+                today.setHours(0,0,0,0);
+
+                topics.forEach((t, idx) => {
+                    const nextDate = new Date(t.nextDue);
+                    nextDate.setHours(0,0,0,0);
+                    const diffDays = Math.ceil((nextDate - today) / (1000 * 60 * 60 * 24));
+
+                    let badgeColor = '#10b981';
+                    let badgeText = `Due in ${diffDays}d`;
+                    if (diffDays <= 0) {
+                        badgeColor = '#ef4444';
+                        badgeText = 'Overdue! Review Today';
+                    } else if (diffDays <= 2) {
+                        badgeColor = '#f59e0b';
+                        badgeText = `Due in ${diffDays}d`;
+                    }
+
+                    const levelBadges = ['🔴 Again', '🟠 Hard', '🟡 Good', '🟢 Easy', '🚀 Mastered'];
+
+                    html += `
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:0.6rem 0.8rem; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:0.82rem;">
+                            <div>
+                                <strong style="color:#ffffff;">${t.name}</strong>
+                                <span style="font-size:0.72rem; color:#a5b4fc; margin-left:0.4rem;">(${levelBadges[t.level - 1] || 'Good'})</span>
+                                <div style="font-size:0.75rem; color:${badgeColor}; margin-top:0.2rem; font-weight:600;">${badgeText} • Next: ${nextDate.toLocaleDateString()}</div>
+                            </div>
+                            <div style="display:flex; gap:0.3rem;">
+                                <button onclick="window.markSrReviewed(${idx})" class="secondary-btn" style="padding:0.2rem 0.5rem; font-size:0.72rem;" title="Mark Reviewed Today">✅ Review</button>
+                                <button onclick="window.deleteSrTopic(${idx})" class="secondary-btn" style="padding:0.2rem 0.4rem; font-size:0.72rem; color:#fca5a5;" title="Delete Topic">&times;</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                listDiv.innerHTML = html;
+            }
+
+            window.markSrReviewed = function(idx) {
+                const topics = loadSrTopics();
+                if (topics[idx]) {
+                    const today = new Date();
+                    const daysAdd = topics[idx].level * 3;
+                    today.setDate(today.getDate() + daysAdd);
+                    topics[idx].nextDue = today.toISOString();
+                    saveSrTopics(topics);
+                }
+            };
+
+            window.deleteSrTopic = function(idx) {
+                const topics = loadSrTopics();
+                topics.splice(idx, 1);
+                saveSrTopics(topics);
+            };
+
+            const clearSrDeckBtn = document.getElementById('clearSrDeckBtn');
+            if (clearSrDeckBtn) {
+                clearSrDeckBtn.addEventListener('click', () => {
+                    localStorage.removeItem('thinkr_sr_topics');
+                    renderSrTopics();
+                });
+            }
+
+            const calcSpacedBtn = document.getElementById('calcSpacedBtn');
+            if (calcSpacedBtn) {
+                calcSpacedBtn.addEventListener('click', () => {
+                    const inputVal = document.getElementById('srSubject').value.trim();
+                    const resDiv = document.getElementById('spacedResults');
+                    if (!inputVal) {
+                        alert('Please enter a topic name!');
+                        return;
+                    }
+
+                    const topicName = inputVal;
+                    const now = new Date();
+                    const multiplier = selectedSrDays / 4;
+                    const intervals = [
+                        Math.max(1, Math.round(1 * multiplier)),
+                        Math.max(3, Math.round(3 * multiplier)),
+                        Math.max(7, Math.round(7 * multiplier)),
+                        Math.max(14, Math.round(14 * multiplier)),
+                        Math.max(30, Math.round(30 * multiplier)),
+                        Math.max(60, Math.round(60 * multiplier))
+                    ];
+
+                    // Calculate Dynamic Memory Stability based on selectedSrLevel (1-5)
+                    const retentionStats = {
+                        1: { pct: 40, label: '40% Low Stability (High Risk / Memory Decay)', color: '#ef4444' },
+                        2: { pct: 60, label: '60% Moderate Stability (Needs Focus)', color: '#f59e0b' },
+                        3: { pct: 78, label: '78% Good Stability (Standard Retention)', color: '#6366f1' },
+                        4: { pct: 90, label: '90% High Stability (Strong Memory)', color: '#10b981' },
+                        5: { pct: 98, label: '98% Permanent Retention (Consolidated)', color: '#a855f7' }
+                    };
+                    const stat = retentionStats[selectedSrLevel] || retentionStats[3];
+
+                    let html = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.4rem;">
+                        <h4 style="color:#818cf8;">Review Timeline for "${topicName}":</h4>
+                        <span class="badge" style="background:rgba(16,185,129,0.2); color:${stat.color}; border:1px solid ${stat.color};">Level ${selectedSrLevel} SM-2</span>
+                    </div>`;
+
+                    // Dynamic Forgetting Curve Retention Bar
+                    html += `
+                        <div style="margin-bottom:1rem; background:rgba(255,255,255,0.03); padding:0.8rem; border-radius:8px;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:#a3a3a3; margin-bottom:0.3rem;">
+                                <span>Estimated Memory Retention Decay</span>
+                                <span style="color:${stat.color}; font-weight:600;">${stat.label}</span>
+                            </div>
+                            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                                <div style="width:${stat.pct}%; height:100%; background:${stat.color}; transition:width 0.5s ease; border-radius:4px;"></div>
+                            </div>
+                        </div>
+                    `;
+
+                    const scheduleDates = [];
+
+                    intervals.forEach((days, i) => {
+                        const target = new Date(now);
+                        target.setDate(target.getDate() + days);
+                        scheduleDates.push({ days, date: target });
+                        html += `<div style="display:flex; justify-content:space-between; margin:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">
+                            <span>Session #${i+1} (${days} ${days===1?'day':'days'} later)</span>
+                            <strong style="color:#a5b4fc;">${target.toLocaleDateString()}</strong>
+                        </div>`;
+                    });
+
+                    // Add 3 Export buttons: Excel (.csv), Word (.doc), Calendar (.ics)
+                    html += `
+                        <div style="margin-top:1rem; display:flex; gap:0.4rem; justify-content:flex-end; flex-wrap:wrap;">
+                            <button id="exportSrExcelBtn" class="secondary-btn" style="padding:0.4rem 0.7rem; font-size:0.8rem; background:rgba(16,185,129,0.2); border-color:#10b981; color:#10b981;">📊 Export Excel (.csv)</button>
+                            <button id="exportSrWordBtn" class="secondary-btn" style="padding:0.4rem 0.7rem; font-size:0.8rem; background:rgba(59,130,246,0.2); border-color:#3b82f6; color:#60a5fa;">📄 Export Word (.doc)</button>
+                            <button id="exportSrCalendarBtn" class="secondary-btn" style="padding:0.4rem 0.7rem; font-size:0.8rem;">📅 Export iCal (.ics)</button>
+                        </div>
+                    `;
+
+                    resDiv.innerHTML = html;
+                    resDiv.style.display = 'block';
+
+                    // Save topic to tracked list
+                    const topics = loadSrTopics();
+                    const existingIdx = topics.findIndex(t => t.name.toLowerCase() === topicName.toLowerCase());
+                    const firstNextDate = new Date(now);
+                    firstNextDate.setDate(firstNextDate.getDate() + intervals[0]);
+
+                    const topicObj = {
+                        name: topicName,
+                        level: selectedSrLevel,
+                        added: now.toISOString(),
+                        nextDue: firstNextDate.toISOString()
+                    };
+
+                    if (existingIdx >= 0) {
+                        topics[existingIdx] = topicObj;
+                    } else {
+                        topics.unshift(topicObj);
+                    }
+                    saveSrTopics(topics);
+
+                    // 1. Export Excel (.csv)
+                    const exportSrExcelBtn = document.getElementById('exportSrExcelBtn');
+                    if (exportSrExcelBtn) {
+                        exportSrExcelBtn.addEventListener('click', () => {
+                            let csv = `Session Number,Interval (Days),Review Target Date,Topic Name,Recall Quality,Retention Stability\n`;
+                            scheduleDates.forEach((sd, i) => {
+                                csv += `Session #${i+1},${sd.days} days,${sd.date.toLocaleDateString()},"${topicName}",Level ${selectedSrLevel},${stat.pct}%\n`;
+                            });
+                            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                            const link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.setAttribute('download', `${topicName.replace(/\s+/g, '_')}_Spaced_Repetition.csv`);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        });
+                    }
+
+                    // 2. Export Word Document (.doc)
+                    const exportSrWordBtn = document.getElementById('exportSrWordBtn');
+                    if (exportSrWordBtn) {
+                        exportSrWordBtn.addEventListener('click', () => {
+                            let docHtml = `
+                                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                                <head><title>Spaced Repetition Schedule - ${topicName}</title>
+                                <style>
+                                    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+                                    h1 { color: #4f46e5; border-bottom: 2px solid #4f46e5; padding-bottom: 5px; }
+                                    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+                                    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                                    th { background-color: #4f46e5; color: white; }
+                                    tr:nth-child(even) { background-color: #f9f9f9; }
+                                </style>
+                                </head>
+                                <body>
+                                    <h1>📅 THINKR Spaced Repetition Memory Schedule</h1>
+                                    <p><strong>Topic:</strong> ${topicName}</p>
+                                    <p><strong>Recall Confidence Score:</strong> Level ${selectedSrLevel} (${stat.label})</p>
+                                    <p><strong>Calculated Date:</strong> ${now.toLocaleDateString()}</p>
+                                    <h2>Review Milestones Table</h2>
+                                    <table>
+                                        <tr>
+                                            <th>Session #</th>
+                                            <th>Interval</th>
+                                            <th>Target Review Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        ${scheduleDates.map((sd, i) => `
+                                            <tr>
+                                                <td>Session #${i+1}</td>
+                                                <td>${sd.days} Days Later</td>
+                                                <td><strong>${sd.date.toLocaleDateString()}</strong></td>
+                                                <td>Scheduled</td>
+                                            </tr>
+                                        `).join('')}
+                                    </table>
+                                </body>
+                                </html>
+                            `;
+                            const blob = new Blob(['\ufeff' + docHtml], { type: 'application/msword' });
+                            const link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.setAttribute('download', `${topicName.replace(/\s+/g, '_')}_Spaced_Repetition.doc`);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        });
+                    }
+
+                    // 3. Export iCal (.ics)
+                    const exportSrCalendarBtn = document.getElementById('exportSrCalendarBtn');
+                    if (exportSrCalendarBtn) {
+                        exportSrCalendarBtn.addEventListener('click', () => {
+                            let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//THINKR AI//Spaced Repetition//EN\n";
+                            scheduleDates.forEach((sd, i) => {
+                                const startStr = sd.date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+                                ics += "BEGIN:VEVENT\n";
+                                ics += `SUMMARY:Spaced Repetition Review: ${topicName} (#${i+1})\n`;
+                                ics += `DESCRIPTION:Active Recall review session #${i+1} for ${topicName} (Interval: ${sd.days} days)\n`;
+                                ics += `DTSTART:${startStr}\n`;
+                                ics += `DTEND:${startStr}\n`;
+                                ics += "END:VEVENT\n";
+                            });
+                            ics += "END:VCALENDAR";
+
+                            const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+                            const link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.setAttribute('download', `${topicName.replace(/\s+/g, '_')}_Spaced_Repetition.ics`);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        });
+                    }
+
+                });
+            }
+
+            renderSrTopics();
+
+
+            // --- Exam Countdown & Syllabus Quota Calculator Engine ---
+            const trackExamBtn = document.getElementById('trackExamBtn');
+            let dailyTargetModules = 1;
+            let completedModulesToday = 0;
+
+            function updateQuotaRingUI() {
+                const fill = document.getElementById('quotaRingFill');
+                const percentDiv = document.getElementById('quotaRingPercent');
+                const percent = Math.min(100, Math.round((completedModulesToday / dailyTargetModules) * 100));
+                
+                if (percentDiv) percentDiv.textContent = `${percent}%`;
+                if (fill) {
+                    const offset = 345 - (percent / 100) * 345;
+                    fill.style.strokeDashoffset = offset;
+                }
+            }
+
+            if (trackExamBtn) {
+                trackExamBtn.addEventListener('click', () => {
+                    const name = document.getElementById('examName').value.trim() || 'Target Exam';
+                    const dateVal = document.getElementById('examDate').value;
+                    const modulesCount = parseInt(document.getElementById('examTopicsCount').value, 10) || 5;
+                    const resDiv = document.getElementById('examTrackerResult');
+                    const daysLeftBadge = document.getElementById('examDaysLeftBadge');
+                    const dailyTargetBadge = document.getElementById('examQuotaDailyTarget');
+                    const quotaText = document.getElementById('examQuotaText');
+
+                    if (!dateVal) {
+                        alert('Please select a target exam date!');
+                        return;
+                    }
+
+                    const examDate = new Date(dateVal);
+                    const today = new Date();
+                    today.setHours(0,0,0,0);
+                    const diffTime = examDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays <= 0) {
+                        alert('Please select a future exam date!');
+                        return;
+                    }
+
+                    completedModulesToday = 0;
+
+                    let paceString = '';
+                    let breakdownHtml = '';
+
+                    if (diffDays >= modulesCount) {
+                        const daysPerModule = Math.round(diffDays / modulesCount);
+                        dailyTargetModules = 1;
+                        paceString = `1 Module / ${daysPerModule} Days`;
+                        
+                        const learnDays = Math.max(1, Math.floor(diffDays * 0.5));
+                        const reviewDays = Math.max(1, Math.floor(diffDays * 0.35));
+                        const practiceDays = Math.max(1, diffDays - learnDays - reviewDays);
+
+                        breakdownHtml = `
+                            <div style="font-weight: 700; color: #ffffff; margin-bottom: 0.4rem;">📚 Academic Mastery Plan for ${name}:</div>
+                            <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.6; color: #cbd5e1;">
+                                <li><strong>Phase 1 (Next ${learnDays} Days):</strong> Initial Deep Learning — Complete 1 module every ${daysPerModule} days (${modulesCount} modules total).</li>
+                                <li><strong>Phase 2 (Next ${reviewDays} Days):</strong> Spaced Active Recall — Conduct 2 full revision passes of all ${modulesCount} modules.</li>
+                                <li><strong>Phase 3 (Final ${practiceDays} Days):</strong> Practice Drills — Solve mock exam papers & practice problems.</li>
+                            </ul>
+                        `;
+                    } else {
+                        const modulesPerDay = Math.ceil(modulesCount / diffDays);
+                        dailyTargetModules = modulesPerDay;
+                        paceString = `${modulesPerDay} Module${modulesPerDay > 1 ? 's' : ''} / Day`;
+                        
+                        breakdownHtml = `
+                            <div style="font-weight: 700; color: #f59e0b; margin-bottom: 0.4rem;">⚡ Intensive Sprint Plan for ${name}:</div>
+                            <p style="margin: 0; color: #cbd5e1;">With ${diffDays} days remaining for ${modulesCount} modules, aim to complete <strong>${modulesPerDay} module${modulesPerDay > 1 ? 's' : ''} every day</strong> to complete the syllabus before test day!</p>
+                        `;
+                    }
+
+                    if (daysLeftBadge) daysLeftBadge.textContent = `${diffDays} Days Left`;
+                    if (dailyTargetBadge) dailyTargetBadge.textContent = paceString;
+                    if (quotaText) quotaText.innerHTML = breakdownHtml;
+
+                    if (resDiv) resDiv.style.display = 'block';
+                    updateQuotaRingUI();
+                });
+            }
+
+            const incBlockBtn = document.getElementById('incBlockProgressBtn');
+            const resetBlockBtn = document.getElementById('resetBlockProgressBtn');
+
+            if (incBlockBtn) {
+                incBlockBtn.addEventListener('click', () => {
+                    completedModulesToday++;
+                    updateQuotaRingUI();
+                });
+            }
+
+            if (resetBlockBtn) {
+                resetBlockBtn.addEventListener('click', () => {
+                    completedModulesToday = 0;
+                    updateQuotaRingUI();
+                });
+            }
+
+            // --- Cognitive Fatigue & Burnout Recovery Advisor Handler ---
+            let totalSessionCompletedCount = 0;
+            const fatigueModal = document.getElementById('fatigueAdvisorModal');
+            const closeFatigueBtn = document.getElementById('closeFatigueBtn');
+            const dismissFatigueBtn = document.getElementById('dismissFatigueBtn');
+            const playOceanFatigueBtn = document.getElementById('playOceanFatigueBtn');
+            const eyeStretchBtn = document.getElementById('eyeStretchBtn');
+            const openFatigueAdvisorBtn = document.getElementById('openFatigueAdvisorBtn');
+
+            if (openFatigueAdvisorBtn && fatigueModal) {
+                openFatigueAdvisorBtn.addEventListener('click', () => {
+                    fatigueModal.classList.add('active');
+                });
+            }
+
+            window.checkFatigueAdvisorTrigger = function() {
+                totalSessionCompletedCount++;
+                if (totalSessionCompletedCount >= 3 && fatigueModal) {
+                    fatigueModal.classList.add('active');
+                }
+            };
+
+
+            if (closeFatigueBtn && fatigueModal) {
+                closeFatigueBtn.addEventListener('click', () => fatigueModal.classList.remove('active'));
+            }
+            if (dismissFatigueBtn && fatigueModal) {
+                dismissFatigueBtn.addEventListener('click', () => fatigueModal.classList.remove('active'));
+            }
+            if (playOceanFatigueBtn) {
+                playOceanFatigueBtn.addEventListener('click', () => {
+                    if (window.ambientAudio && window.ambientAudio.playOcean) {
+                        window.ambientAudio.playOcean();
+                        alert('🌊 Playing 5-Minute Deep Ocean Wave Swell for mental recovery!');
+                    }
+                    if (fatigueModal) fatigueModal.classList.remove('active');
+                });
+            }
+            if (eyeStretchBtn) {
+                eyeStretchBtn.addEventListener('click', () => {
+                    alert('👀 20-20-20 Eye Stretch: Look at an object 20 feet away for 20 seconds. Relax your facial & eye muscles!');
+                });
+            }
+
+
+            // --- Plan Generator & Progress Tracker ---
+            let activePlanData = null;
+            const studyPlanForm = document.getElementById('studyPlanForm');
+
+            window.updateProgress = function() {
+                const checkboxes = document.querySelectorAll('.task-checkbox');
+                if (checkboxes.length === 0) return;
+                const checked = document.querySelectorAll('.task-checkbox:checked');
+                const percent = Math.round((checked.length / checkboxes.length) * 100);
+                const progressBarFill = document.getElementById('progressBarFill');
+                const progressPercent = document.getElementById('progressPercent');
+                if (progressBarFill) progressBarFill.style.width = `${percent}%`;
+                if (progressPercent) progressPercent.textContent = `${percent}% (${checked.length}/${checkboxes.length})`;
+            };
+
+            if (studyPlanForm) {
+                studyPlanForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const btn = document.getElementById('generateBtn');
+                    const subjectsInput = document.getElementById('subjects').value;
+                    const timeInput = parseFloat(document.getElementById('time').value);
+                    const focusStrategy = document.getElementById('focusInterval').value;
+                    const technique = document.getElementById('learningTechnique').value;
+                    const startTimeVal = document.getElementById('startTime').value || '09:00';
+                    
+                    const container = document.getElementById('planResultContainer');
+                    const timeline = document.getElementById('planTimeline');
+                    const metadata = document.getElementById('planMetadata');
+                    
+                    if (btn) {
+                        btn.textContent = 'Calculating Optimal Pathway...';
+                        btn.style.opacity = '0.8';
+                    }
+                    
+                    setTimeout(() => {
+                        if (btn) {
+                            btn.textContent = 'Build Cognitive Pathway';
+                            btn.style.opacity = '1';
+                        }
+                        if (container) container.style.display = 'block';
+                        
+                        const subjects = subjectsInput.split(',').map(s => s.trim()).filter(s => s);
+                        if (subjects.length === 0) return;
+
+                        let focusMins = 45;
+                        let restMins = 15;
+                        if (focusStrategy === 'pomodoro') { focusMins = 25; restMins = 5; }
+                        else if (focusStrategy === 'deepwork') { focusMins = 50; restMins = 10; }
+
+                        initialSeconds = focusMins * 60;
+                        timerSeconds = initialSeconds;
+                        updateTimerDigits();
+                        if (timerSubjectBadge) timerSubjectBadge.textContent = subjects[0];
+
+                        const totalMinsAvailable = timeInput * 60;
+                        const totalBlockMins = focusMins + restMins;
+                        const numberOfBlocks = Math.max(1, Math.floor(totalMinsAvailable / totalBlockMins));
+                        
+                        const techniqueNames = {
+                            'active_recall': 'Active Recall & Self-Testing',
+                            'feynman': 'Feynman Technique (Simple Explanation)',
+                            'spaced': 'Spaced Repetition Review',
+                            'practice': 'Practice Exercises'
+                        };
+                        
+                        if (metadata) metadata.textContent = `${subjects.length} Topics • ${timeInput} Hours • ${techniqueNames[technique] || 'Cognitive Focus'}`;
+
+
+                        let [startH, startM] = startTimeVal.split(':').map(Number);
+                        let currentTime = new Date();
+                        currentTime.setHours(startH, startM, 0, 0);
+
+                        let html = '';
+                        let blocksList = [];
+
+                        for (let i = 0; i < numberOfBlocks; i++) {
+                            const currentSubject = subjects[i % subjects.length];
+                            const startTimeStr = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            const startISO = new Date(currentTime);
+
+                            currentTime.setMinutes(currentTime.getMinutes() + focusMins);
+                            const endTimeStr = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            const endISO = new Date(currentTime);
+
+                            blocksList.push({
+                                title: currentSubject,
+                                startStr: startTimeStr,
+                                endStr: endTimeStr,
+                                startDate: startISO,
+                                endDate: endISO,
+                                type: 'focus'
+                            });
+
+                            html += `
+                                <div class="timeline-item" style="animation-delay: ${i * 0.1}s">
+                                    <div class="timeline-time">${startTimeStr} - ${endTimeStr}</div>
+                                    <div class="timeline-content">
+                                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                                            <div>
+                                                <h4>${currentSubject}</h4>
+                                                <p style="color: #a3a3a3; font-size: 0.85rem; margin-top: 0.3rem;">
+                                                    🎯 Focus Block #${i + 1} (${focusMins} mins) — Apply ${techniqueNames[technique]}
+                                                </p>
+                                            </div>
+                                            <label class="checkbox-container" title="Mark session as complete">
+                                                <input type="checkbox" class="task-checkbox" onchange="window.updateProgress()">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+                            if (i < numberOfBlocks - 1) {
+                                const breakStart = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                currentTime.setMinutes(currentTime.getMinutes() + restMins);
+                                const breakEnd = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                                html += `
+                                    <div class="timeline-item" style="animation-delay: ${i * 0.1 + 0.05}s">
+                                        <div class="timeline-time" style="color: #a3a3a3;">${breakStart} - ${breakEnd}</div>
+                                        <div class="timeline-content" style="background: transparent; border: 1px dashed rgba(255,255,255,0.1);">
+                                            <h4 style="color: #a3a3a3; font-size: 0.95rem;">☕ Rest & Brain Consolidation (${restMins} mins)</h4>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+
+                        if (timeline) timeline.innerHTML = html;
+                        activePlanData = { subjects, blocks: blocksList, timeInput, technique };
+                        window.updateProgress();
+
+                        if (container) container.scrollIntoView({ behavior: 'smooth' });
+
+                    }, 400);
+                });
+            }
+
+            // --- Export to iCal (.ics) ---
+            const exportIcalBtn = document.getElementById('exportIcalBtn');
+            if (exportIcalBtn) {
+                exportIcalBtn.addEventListener('click', () => {
+                    if (!activePlanData || !activePlanData.blocks) {
+                        alert('Please generate a study plan first!');
+                        return;
+                    }
+
+                    function formatDateToICS(d) {
+                        return d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+                    }
+
+                    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//THINKR AI//Study Workspace//EN\n";
+
+                    activePlanData.blocks.forEach((block) => {
+                        icsContent += "BEGIN:VEVENT\n";
+                        icsContent += `SUMMARY:THINKR Focus: ${block.title}\n`;
+                        icsContent += `DESCRIPTION:Study block for ${block.title} using ${activePlanData.technique}\n`;
+                        icsContent += `DTSTART:${formatDateToICS(block.startDate)}\n`;
+                        icsContent += `DTEND:${formatDateToICS(block.endDate)}\n`;
+                        icsContent += "STATUS:CONFIRMED\n";
+                        icsContent += "END:VEVENT\n";
+                    });
+
+                    icsContent += "END:VCALENDAR";
+
+                    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.setAttribute('download', 'THINKR_Study_Schedule.ics');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+
+            // --- Export Text Summary ---
+            const exportTextBtn = document.getElementById('exportTextBtn');
+            if (exportTextBtn) {
+                exportTextBtn.addEventListener('click', () => {
+                    if (!activePlanData || !activePlanData.blocks) {
+                        alert('Please generate a study plan first!');
+                        return;
+                    }
+                    let summary = `# 🧠 THINKR AI Study Plan\nGenerated on: ${new Date().toLocaleDateString()}\n\n`;
+                    activePlanData.blocks.forEach(b => {
+                        summary += `- [ ] **${b.startStr} - ${b.endStr}**: ${b.title}\n`;
+                    });
+                    const blob = new Blob([summary], { type: 'text/plain;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.setAttribute('download', 'THINKR_Study_Plan.txt');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+
+            // --- Print Schedule ---
+            const printPlanBtn = document.getElementById('printPlanBtn');
+            if (printPlanBtn) {
+                printPlanBtn.addEventListener('click', () => {
+                    window.print();
+                });
+            }
+        });
+    </script>
+
+    <!-- AI Agent Widget -->
+    <div id="ai-agent-widget" class="ai-agent-widget">
+        <div class="agent-chat-window" id="agentChatWindow">
+            <div class="agent-header">
+                <div class="agent-status-orb"></div>
+                <span>THINKR Core</span>
+                <button id="closeAgentBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="agent-messages" id="agentMessages"></div>
+            <div class="agent-input-area">
+                <input type="text" id="agentInput" placeholder="Ask THINKR...">
+                <button id="agentSendBtn">Send</button>
+            </div>
+        </div>
+        <div class="agent-trigger" id="agentTrigger">
+            <div class="agent-trigger-orb"></div>
+        </div>
+</body>
+</html>
+

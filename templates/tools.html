@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Tools Suite - THINKR AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="container">
+        <header>
+            <h1 class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">THINKR <span class="accent">AI</span></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="study-plan.html">Study Workspace</a></li>
+                    <li><a href="tools.html">Tools Suite</a></li>
+                    <li><span class="streak-badge-display" style="padding: 0.4rem 0.8rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981; font-size: 0.85rem; font-weight: 700;">🔥 1 Day</span></li>
+                    <li><button id="settingsBtn" class="settings-nav-btn" title="API Key & Settings">⚙️ Settings</button></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div style="margin-bottom: 2rem; text-align: center;">
+                <h2 style="font-size: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 0.6rem;">
+                    <span style="-webkit-text-fill-color: initial; font-size: 2.5rem;">🧠</span>
+                    <span style="background: linear-gradient(to right, #fff, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Cognitive Reading Suite</span>
+                </h2>
+                <p style="color: #a3a3a3; font-size: 1rem; max-width: 600px; margin: 0.5rem auto 0;">
+                    Supercharge your reading comprehension, memory retention, conceptual clarity, and focus environment.
+                </p>
+            </div>
+
+            <!-- Grid Layout for Tools -->
+            <div class="tools-grid">
+                <!-- Tool 1: Smart Reading & Note Summarizer -->
+                <div class="card tool-card" id="summarizerCard">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📄 Smart Note Summarizer
+                        </h3>
+                        <span class="badge">AI Powered</span>
+                    </div>
+                    <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1rem;">
+                        Paste any textbook chapter, article, or lecture notes to extract instant key takeaways, mind-maps, or quiz questions.
+                    </p>
+                    <textarea id="summarizerInput" class="thought-textarea" style="height: 140px;" placeholder="Paste long notes or text article here..."></textarea>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <select id="summaryFormat" class="form-select" style="flex: 1; min-width: 170px;">
+                            <option value="key_takeaways">Key Takeaways (Bullets)</option>
+                            <option value="executive">Executive Summary</option>
+                            <option value="mindmap">Mind-Map Outline</option>
+                            <option value="quiz">Active Recall Quiz Questions</option>
+                        </select>
+                        <button id="summarizeBtn" class="cta-button" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">Summarize</button>
+                    </div>
+
+                    <div id="summarizerResult" style="display: none; margin-top: 1.2rem;">
+                        <div style="font-size: 0.85rem; color: #818cf8; font-weight: 700; margin-bottom: 0.5rem;">SUMMARY OUTPUT:</div>
+                        <div id="summarizerContent" class="summarizer-output"></div>
+                    </div>
+                </div>
+
+                <!-- Tool 2: Active Recall Flashcard Generator & Player -->
+                <div class="card tool-card" id="flashcardCard">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🎴 Active Recall Flashcard Generator
+                        </h3>
+                        <span class="badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">Interactive Deck</span>
+                    </div>
+                    <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1rem;">
+                        Generate custom flashcard decks from any topic or paste custom source data to auto-extract active recall question cards.
+                    </p>
+
+                    <!-- Topic & Card Count controls -->
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
+                        <input type="text" id="flashcardTopic" class="form-select" style="flex: 2; min-width: 170px;" placeholder="Topic (e.g. array, dbms, operating system)">
+                        <select id="flashcardCount" class="form-select" style="flex: 1; min-width: 110px;" title="Select number of cards to generate">
+                            <option value="2">2 Cards</option>
+                            <option value="5" selected>5 Cards</option>
+                            <option value="8">8 Cards</option>
+                            <option value="10">10 Cards</option>
+                            <option value="15">15 Cards</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Data Input Area -->
+                    <div style="margin-bottom: 1rem;">
+                        <textarea id="flashcardSourceData" class="thought-textarea" style="height: 80px;" placeholder="Optional: Paste custom study notes/data here to generate cards directly from your text..."></textarea>
+                    </div>
+
+                    <button id="generateDeckBtn" class="cta-button" style="width: 100%; margin-bottom: 1.2rem; padding: 0.75rem; font-size: 0.95rem;">Generate Deck</button>
+
+                    <!-- Flashcard Interactive Player -->
+                    <div id="flashcardArea" style="display: block;">
+                        <div class="flashcard-container" id="flashcardElement" title="Click card or press Spacebar to flip">
+                            <div class="flashcard-inner" id="flashcardInner">
+                                <div class="flashcard-front">
+                                    <span class="flashcard-label">QUESTION (Click card to flip)</span>
+                                    <div id="cardQuestion" class="flashcard-text">What topic would you like to test your recall on?</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <span class="flashcard-label">ANSWER</span>
+                                    <div id="cardAnswer" class="flashcard-text">Type any topic or paste custom text above and click "Generate Deck"!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flashcard-controls">
+                            <button id="prevCardBtn" class="secondary-btn">← Prev</button>
+                            <span id="cardCounter" style="font-size: 0.85rem; color: #a3a3a3;">Card 1 of 5</span>
+                            <button id="nextCardBtn" class="secondary-btn">Next →</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Tool 4: Ambient Focus Soundscape Generator -->
+                <div class="card tool-card" id="soundscapesCard">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🎵 Ambient Focus Soundscapes
+                        </h3>
+                        <span id="audioStatusBadge" class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">12 Focus Modes</span>
+                    </div>
+                    <p style="color: #a3a3a3; font-size: 0.85rem; margin-bottom: 1.2rem;">
+                        Block out environmental noise using real-time audio synthesis (12 focus modes).
+                    </p>
+
+                    <div class="sound-controls-grid">
+                        <button id="btnRainSound" class="sound-btn" data-sound="rain">🌧️ Gentle Rain</button>
+                        <button id="btnBinauralSound" class="sound-btn" data-sound="binaural">🎧 10Hz Alpha Waves</button>
+                        <button id="btnGammaSound" class="sound-btn" data-sound="gamma">⚡ 40Hz Gamma Focus</button>
+                        <button id="btnOceanSound" class="sound-btn" data-sound="ocean">🌊 Deep Ocean</button>
+                        <button id="btnForestSound" class="sound-btn" data-sound="forest">🌲 Nature & Birds</button>
+                        <button id="btnCafeSound" class="sound-btn" data-sound="cafe">☕ Warm Cafe</button>
+                        <button id="btnWhiteNoise" class="sound-btn" data-sound="white">📻 White Noise</button>
+                        <button id="btnPinkNoise" class="sound-btn" data-sound="pink">🌸 Pink Noise</button>
+                        <button id="btnBrownNoise" class="sound-btn" data-sound="brown">🟤 Brown Noise</button>
+                        <button id="btnCosmicSound" class="sound-btn" data-sound="cosmic">🌌 Cosmic Space Drone</button>
+                        <button id="btnFireSound" class="sound-btn" data-sound="fire">🔥 Fireplace Crackle</button>
+                        <button id="btnWindSound" class="sound-btn" data-sound="wind">🌬️ Mountain Wind</button>
+                        <button id="btnStopSound" class="sound-btn stop-sound-btn">🔇 Mute Audio</button>
+                    </div>
+
+                    <div style="margin-top: 1.2rem; text-align: center; padding: 0.8rem; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                        <p id="currentAudioText" style="font-size: 0.85rem; color: #a3a3a3;">Select a soundscape to start focus</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 THINKR AI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⚙️ THINKR Settings & API Key</h3>
+                <button id="closeSettingsBtn" class="close-btn">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <p style="font-size: 0.9rem; color: #a3a3a3; margin-bottom: 1rem;">
+                    Configure your <strong>Google Gemini API Key</strong> to unlock live generative AI reasoning across the Chatbot, Note Summarizer, and Feynman Assistant.
+                </p>
+                <div class="form-group">
+                    <label for="geminiApiKeyInput">Google Gemini API Key</label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." style="font-family: monospace;">
+                </div>
+                <div id="apiKeyStatus" style="font-size: 0.8rem; margin-bottom: 1.2rem;">Checking status...</div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                    <button id="saveSettingsBtn" class="cta-button" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Smart Reading Summarizer Logic ---
+            const summarizeBtn = document.getElementById('summarizeBtn');
+            if (summarizeBtn) {
+                summarizeBtn.addEventListener('click', async () => {
+                    const input = document.getElementById('summarizerInput').value.trim();
+                    const format = document.getElementById('summaryFormat').value;
+                    const resultDiv = document.getElementById('summarizerResult');
+
+                    if (!input) {
+                        alert('Please paste some text or notes to summarize!');
+                        return;
+                    }
+
+                    summarizeBtn.textContent = 'Analyzing...';
+                    summarizeBtn.disabled = true;
+                    resultDiv.style.display = 'block';
+                    resultDiv.innerHTML = '<div style="color:#a3a3a3;">⚡ Condensing text...</div>';
+
+                    const formatLabels = {
+                        'key_takeaways': 'Key Takeaways (Bullets)',
+                        'executive': 'Executive Summary',
+                        'mindmap': 'Mind-Map Outline',
+                        'quiz': 'Active Recall Quiz Questions'
+                    };
+
+                    try {
+                        const prompt = `Summarize using format "${formatLabels[format] || format}".\n\nText:\n${input}`;
+                        const responseText = await window.callGeminiAPI(prompt, `You are an expert reading summarizer. Use format: ${format}`);
+                        resultDiv.innerHTML = `<h4 style="color:#818cf8; margin-bottom:0.5rem;">Summary Output</h4><div>${window.renderMarkdown(responseText)}</div>`;
+                    } catch (err) {
+                        console.error("Summarizer error:", err);
+                    } finally {
+                        summarizeBtn.textContent = 'Summarize';
+                        summarizeBtn.disabled = false;
+                    }
+                });
+            }
+
+            // --- Active Recall Flashcards Deck Logic ---
+            let currentDeck = [
+                { q: "What topic would you like to test your recall on?", a: "Type any topic or paste custom text above and click Generate Deck!" },
+                { q: "What is Active Recall?", a: "Testing your memory during learning (closing notes and recalling facts) rather than passively re-reading." },
+                { q: "What is the Feynman Technique?", a: "A learning method where you explain a concept in simple terms as if teaching a beginner to spot knowledge gaps." },
+                { q: "What is Spaced Repetition?", a: "Reviewing material at increasing time intervals (1d, 3d, 7d, 14d) to maximize long-term retention." },
+                { q: "How do flashcards accelerate retention?", a: "By forcing your brain to actively retrieve information, strengthening neural connections." }
+            ];
+            let currentCardIndex = 0;
+            let isFlipped = false;
+
+            const flashcardElement = document.getElementById('flashcardElement');
+            const flashcardInner = document.getElementById('flashcardInner');
+            const cardQuestion = document.getElementById('cardQuestion');
+            const cardAnswer = document.getElementById('cardAnswer');
+            const cardCounter = document.getElementById('cardCounter');
+            const flashcardArea = document.getElementById('flashcardArea');
+            const flashcardTopicInput = document.getElementById('flashcardTopic');
+            const flashcardCountInput = document.getElementById('flashcardCount');
+            const flashcardSourceData = document.getElementById('flashcardSourceData');
+            const generateDeckBtn = document.getElementById('generateDeckBtn');
+            const prevCardBtn = document.getElementById('prevCardBtn');
+            const nextCardBtn = document.getElementById('nextCardBtn');
+
+            function toggleFlip() {
+                isFlipped = !isFlipped;
+                if (flashcardInner) {
+                    if (isFlipped) {
+                        flashcardInner.classList.add('flipped');
+                    } else {
+                        flashcardInner.classList.remove('flipped');
+                    }
+                }
+            }
+
+            if (flashcardElement) {
+                flashcardElement.addEventListener('click', toggleFlip);
+            }
+
+            // Keyboard shortcut support (Left, Right, Space)
+            document.addEventListener('keydown', (e) => {
+                const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+                if (activeTag === 'input' || activeTag === 'textarea') return;
+
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    toggleFlip();
+                } else if (e.code === 'ArrowLeft') {
+                    if (prevCardBtn) prevCardBtn.click();
+                } else if (e.code === 'ArrowRight') {
+                    if (nextCardBtn) nextCardBtn.click();
+                }
+            });
+
+            function showCard(index) {
+                if (!currentDeck || currentDeck.length === 0) return;
+                isFlipped = false;
+                if (flashcardInner) flashcardInner.classList.remove('flipped');
+                if (cardQuestion) cardQuestion.textContent = currentDeck[index].q;
+                if (cardAnswer) cardAnswer.textContent = currentDeck[index].a;
+                if (cardCounter) cardCounter.textContent = `Card ${index + 1} of ${currentDeck.length}`;
+            }
+
+            async function triggerGenerateDeck() {
+                if (!generateDeckBtn) return;
+                const topic = flashcardTopicInput ? flashcardTopicInput.value.trim() : "";
+                const count = flashcardCountInput ? parseInt(flashcardCountInput.value, 10) : 5;
+                const customData = flashcardSourceData ? flashcardSourceData.value.trim() : "";
+
+                if (!topic && !customData) {
+                    alert('Please enter a topic name or paste custom data!');
+                    return;
+                }
+
+                generateDeckBtn.textContent = 'Generating Deck...';
+                generateDeckBtn.disabled = true;
+
+                let newDeck = null;
+
+                try {
+                    let prompt = `Generate ${count} Q&A flashcards for topic: "${topic || 'Custom Text'}". Return strictly valid JSON array of objects with "q" and "a" properties. Format: [{"q":"Question","a":"Answer"}]`;
+                    if (customData) {
+                        prompt += `\n\nSource Data:\n${customData}`;
+                    }
+                    const rawText = await window.callGeminiAPI(prompt, "Return ONLY valid JSON format array.");
+                    const jsonMatch = rawText.match(/\[[\s\S]*\]/);
+                    if (jsonMatch) {
+                        const parsed = JSON.parse(jsonMatch[0]);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            newDeck = parsed.slice(0, count);
+                        }
+                    }
+                } catch(e) {
+                    console.warn("JSON parse fallback:", e);
+                }
+
+                if (!newDeck || newDeck.length === 0) {
+                    newDeck = [
+                        { q: `What is the fundamental definition of ${topic || 'Custom Concept'}?`, a: `${topic || 'This concept'} is a core structure used to organize information and solve problems.` }
+                    ];
+                }
+
+                currentDeck = newDeck;
+                generateDeckBtn.textContent = 'Generate Deck';
+                generateDeckBtn.disabled = false;
+                currentCardIndex = 0;
+                showCard(0);
+                if (flashcardArea) flashcardArea.style.display = 'block';
+            }
+
+            if (generateDeckBtn) generateDeckBtn.addEventListener('click', triggerGenerateDeck);
+
+            if (flashcardTopicInput) {
+                flashcardTopicInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        triggerGenerateDeck();
+                    }
+                });
+            }
+
+            if (prevCardBtn) {
+                prevCardBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (currentCardIndex > 0) {
+                        currentCardIndex--;
+                    } else {
+                        currentCardIndex = currentDeck.length - 1;
+                    }
+                    showCard(currentCardIndex);
+                });
+            }
+
+            if (nextCardBtn) {
+                nextCardBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (currentCardIndex < currentDeck.length - 1) {
+                        currentCardIndex++;
+                    } else {
+                        currentCardIndex = 0;
+                    }
+                    showCard(currentCardIndex);
+                });
+            }
+
+            // --- Feynman Technique Analysis ---
+            const analyzeFeynmanBtn = document.getElementById('analyzeFeynmanBtn');
+            if (analyzeFeynmanBtn) {
+                analyzeFeynmanBtn.addEventListener('click', async () => {
+                    const topic = document.getElementById('feynmanTopic').value.trim();
+                    const exp = document.getElementById('feynmanExplanation').value.trim();
+                    const resultDiv = document.getElementById('feynmanResult');
+
+                    if (!topic || !exp) {
+                        alert('Please enter both topic name and your explanation!');
+                        return;
+                    }
+
+                    analyzeFeynmanBtn.textContent = 'Analyzing...';
+                    analyzeFeynmanBtn.disabled = true;
+                    resultDiv.style.display = 'block';
+                    resultDiv.innerHTML = '<div style="color:#a3a3a3;">⚡ Evaluating clarity...</div>';
+
+                    try {
+                        const prompt = `Topic: "${topic}"\nExplanation: "${exp}"\nEvaluate this explanation based on the Feynman Technique. Point out: 1) Simplicity score (1-10), 2) Complex jargon detected, 3) Missing core concepts for "${topic}", 4) Suggested analogy to improve clarity.`;
+                        const respText = await window.callGeminiAPI(prompt, "You are an expert Feynman Technique mentor.");
+                        resultDiv.innerHTML = `<h4 style="color:#818cf8; margin-bottom:0.5rem;">Feynman Evaluation</h4><div>${window.renderMarkdown(respText)}</div>`;
+                    } catch(e) {
+                        console.error("Feynman error:", e);
+                    } finally {
+                        analyzeFeynmanBtn.textContent = 'Analyze Clarity & Gaps';
+                        analyzeFeynmanBtn.disabled = false;
+                    }
+                });
+            }
+
+            // --- Ambient Sound Controls ---
+            const currentAudioText = document.getElementById('currentAudioText');
+
+            const soundActions = {
+                'btnRainSound': () => { window.ambientAudio.playRain(); if(currentAudioText) currentAudioText.textContent = '🌧️ Playing: Gentle Rain Soundscape'; },
+                'btnBinauralSound': () => { window.ambientAudio.playBinaural(); if(currentAudioText) currentAudioText.textContent = '🎧 Playing: 10Hz Alpha Focus Waves'; },
+                'btnGammaSound': () => { window.ambientAudio.playGamma(); if(currentAudioText) currentAudioText.textContent = '⚡ Playing: 40Hz Gamma Focus Waves'; },
+                'btnOceanSound': () => { window.ambientAudio.playOcean(); if(currentAudioText) currentAudioText.textContent = '🌊 Playing: Deep Ocean Waves'; },
+                'btnForestSound': () => { window.ambientAudio.playForest(); if(currentAudioText) currentAudioText.textContent = '🌲 Playing: Nature & Forest Birds'; },
+                'btnCafeSound': () => { window.ambientAudio.playCafe(); if(currentAudioText) currentAudioText.textContent = '☕ Playing: Warm Coffee Shop Ambience'; },
+                'btnWhiteNoise': () => { window.ambientAudio.playWhiteNoise(); if(currentAudioText) currentAudioText.textContent = '📻 Playing: White Noise Spectrum'; },
+                'btnPinkNoise': () => { window.ambientAudio.playPinkNoise(); if(currentAudioText) currentAudioText.textContent = '🌸 Playing: Warm Pink Noise'; },
+                'btnBrownNoise': () => { window.ambientAudio.playBrownNoise(); if(currentAudioText) currentAudioText.textContent = '🟤 Playing: Deep Brown Noise'; },
+                'btnCosmicSound': () => { window.ambientAudio.playCosmicDrone(); if(currentAudioText) currentAudioText.textContent = '🌌 Playing: Cosmic Space Drone'; },
+                'btnFireSound': () => { window.ambientAudio.playFireplace(); if(currentAudioText) currentAudioText.textContent = '🔥 Playing: Fireplace Crackle'; },
+                'btnWindSound': () => { window.ambientAudio.playWind(); if(currentAudioText) currentAudioText.textContent = '🌬️ Playing: Mountain Wind & Breeze'; },
+                'btnStopSound': () => { window.ambientAudio.stopAll(); if(currentAudioText) currentAudioText.textContent = 'Select a soundscape to start focus'; }
+            };
+
+            Object.keys(soundActions).forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.addEventListener('click', soundActions[btnId]);
+                }
+            });
+        });
+    </script>
+
+    <!-- AI Agent Widget -->
+    <div id="ai-agent-widget" class="ai-agent-widget">
+        <div class="agent-chat-window" id="agentChatWindow">
+            <div class="agent-header">
+                <div class="agent-status-orb"></div>
+                <span>THINKR Core</span>
+                <button id="closeAgentBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="agent-messages" id="agentMessages"></div>
+            <div class="agent-input-area">
+                <input type="text" id="agentInput" placeholder="Ask THINKR...">
+                <button id="agentSendBtn">Send</button>
+            </div>
+        </div>
+        <div class="agent-trigger" id="agentTrigger">
+            <div class="agent-trigger-orb"></div>
+        </div>
+    </div>
+</body>
+</html>

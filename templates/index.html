@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THINKR AI - Professional Cognitive Learning & Focus Platform</title>
+    <meta name="description" content="THINKR AI: Next-generation cognitive study planner, active recall flashcards, SuperMemo SM-2 spaced repetition engine, and ambient focus soundscapes.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        @keyframes floatHero {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .hero-floating-card {
+            animation: floatHero 5s ease-in-out infinite;
+        }
+
+        .home-section-card {
+            background: rgba(18, 18, 28, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 24px;
+            padding: 2.2rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .quiz-option-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            color: #d4d4d4;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .quiz-option-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #ffffff;
+        }
+
+        .quiz-option-btn.active-quiz {
+            background: rgba(99, 102, 241, 0.35) !important;
+            border-color: #818cf8 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            font-weight: 700;
+        }
+
+        .home-timer-circle {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            border: 4px solid rgba(99, 102, 241, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            background: rgba(0, 0, 0, 0.45);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
+            animation: pulseRing 4s infinite ease-in-out;
+        }
+
+        .feature-grid-home {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        .home-card {
+            background: rgba(18, 18, 28, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 1.8rem;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .home-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="container">
+        <header>
+            <h1 class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">THINKR <span class="accent">AI</span></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="study-plan.html">Study Workspace</a></li>
+                    <li><a href="tools.html">Tools Suite</a></li>
+                    <li><span class="streak-badge-display" style="padding: 0.4rem 0.8rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; color: #10b981; font-size: 0.85rem; font-weight: 700;">🔥 1 Day</span></li>
+                    <li><button id="settingsBtn" class="settings-nav-btn" title="API Key & Settings">⚙️ Settings</button></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero" style="padding: 2.5rem 0; align-items: center;">
+                <div class="hero-content">
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 30px; font-size: 0.85rem; color: #818cf8; margin-bottom: 1.2rem; font-weight: 600;">
+                        <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+                        THINKR AI 2.5 • Cognitive EdTech Suite
+                    </div>
+                    <h2 style="font-size: 3.2rem; line-height: 1.15; margin-bottom: 1.2rem; background: linear-gradient(to right, #ffffff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Empower Your Learning with AI & Active Recall
+                    </h2>
+                    <p style="font-size: 1.05rem; color: #a3a3a3; margin-bottom: 2rem; max-width: 520px; line-height: 1.6;">
+                        Supercharge retention using active recall flashcards, SuperMemo SM-2 spaced repetition schedules, multi-format exports, and 12 ambient focus soundscapes.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="study-plan.html" class="cta-button" style="padding: 0.9rem 2rem; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center;">⚡ Open Study Workspace</a>
+                        <a href="tools.html" class="secondary-btn" style="padding: 0.9rem 2rem; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center;">🧠 Explore Tools Suite</a>
+                    </div>
+                </div>
+
+                <div class="interactive-element hero-floating-card" id="aiVisualizer" style="position: relative;">
+                    <div class="orb" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;"></div>
+                    <img src="/static/images/hero.png" alt="THINKR Workspace" style="width: 100%; max-width: 460px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 1px solid rgba(99,102,241,0.25); z-index: 2; position: relative;">
+                </div>
+            </section>
+
+            <!-- Student Gamified Progress Ribbon -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0 3rem;">
+                <div style="text-align: center; padding: 1.2rem; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
+                    <div class="streak-badge-display" style="font-size: 1.8rem; font-weight: 800; color: #10b981;">🔥 1 Day</div>
+                    <div style="font-size: 0.8rem; color: #a3a3a3; margin-top: 0.2rem;">Active Study Streak</div>
+                </div>
+                <div style="text-align: center; padding: 1.2rem; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #818cf8;">🎯 100%</div>
+                    <div style="font-size: 0.8rem; color: #a3a3a3; margin-top: 0.2rem;">Active Recall Mastery</div>
+                </div>
+                <div style="text-align: center; padding: 1.2rem; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #c084fc;">📅 SM-2</div>
+                    <div style="font-size: 0.8rem; color: #a3a3a3; margin-top: 0.2rem;">Spaced Repetition Engine</div>
+                </div>
+                <div style="text-align: center; padding: 1.2rem; background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #f59e0b;">🎵 12 Modes</div>
+                    <div style="font-size: 0.8rem; color: #a3a3a3; margin-top: 0.2rem;">Ambient Audio Soundscapes</div>
+                </div>
+            </div>
+
+            <!-- MODULE 1: Live Home Pomodoro Focus Widget -->
+            <section class="home-section-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 0.3rem;">⏱️ Quick Focus Session</h3>
+                        <p style="color: #a3a3a3; font-size: 0.9rem;">Start an instant focus block with customizable duration right from the home page.</p>
+                    </div>
+                    <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Live Timer</span>
+                </div>
+
+                <!-- Duration Preset Toolbar -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; justify-content: center;">
+                    <button class="home-preset-btn secondary-btn" data-mins="5" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">5m Quick</button>
+                    <button class="home-preset-btn secondary-btn" data-mins="15" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">15m Sprint</button>
+                    <button class="home-preset-btn secondary-btn active-preset" data-mins="25" style="padding: 0.35rem 0.8rem; font-size: 0.82rem; background: rgba(99,102,241,0.3); border-color: #6366f1;">25m Pomodoro</button>
+                    <button class="home-preset-btn secondary-btn" data-mins="45" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">45m Focus</button>
+                    <button class="home-preset-btn secondary-btn" data-mins="60" style="padding: 0.35rem 0.8rem; font-size: 0.82rem;">60m Deep Work</button>
+                </div>
+
+                <!-- Custom Duration Row -->
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 1.2rem; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 0.5rem 1rem; border-radius: 12px;">
+                    <label for="homeCustomMinsInput" style="font-size: 0.85rem; color: #a3a3a3;">Custom Minutes:</label>
+                    <input type="number" id="homeCustomMinsInput" min="1" max="180" value="25" style="width: 75px; padding: 0.35rem; text-align: center; font-weight: 700;" class="form-select">
+                    <button id="setHomeCustomMinsBtn" class="secondary-btn" style="padding: 0.35rem 0.9rem; font-size: 0.82rem;">Set Duration</button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="home-timer-circle">
+                        <div id="homeTimerDigits" style="font-size: 2.2rem; font-weight: 800; color: #ffffff; font-family: monospace;">25:00</div>
+                        <div id="homeTimerLabel" style="font-size: 0.75rem; color: #818cf8; text-transform: uppercase; font-weight: 600; margin-top: 0.2rem;">Pomodoro Focus</div>
+                    </div>
+
+                    <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                        <button id="homeTimerStartBtn" class="cta-button" style="padding: 0.6rem 1.8rem; font-size: 0.9rem;">Start Timer</button>
+                        <button id="homeTimerResetBtn" class="secondary-btn" style="padding: 0.6rem 1.4rem; font-size: 0.9rem;">Reset</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 2: Instant Subject Pathway Sandbox -->
+            <section class="home-section-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 0.3rem;">⚡ Instant Cognitive Sandbox</h3>
+                        <p style="color: #a3a3a3; font-size: 0.9rem;">Type any subject to generate a 5-module milestone study roadmap.</p>
+                    </div>
+                    <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">Interactive Preview</span>
+                </div>
+
+                <div style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <input type="text" id="demoTopicInput" class="form-select" style="flex: 2; min-width: 200px;" placeholder="e.g. Java, Python, DBMS, Operating System, Calculus">
+                    <button id="demoGenerateBtn" class="cta-button" style="padding: 0.8rem 1.8rem;">Generate Roadmap</button>
+                </div>
+
+                <div id="demoOutputArea" style="display: none; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem;">
+                    <!-- Sandbox Output -->
+                </div>
+            </section>
+
+            <!-- MODULE 3: Student Cognitive Diagnostic Quiz -->
+            <section class="home-section-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 0.3rem;">🧩 Find Your Study Strategy</h3>
+                        <p style="color: #a3a3a3; font-size: 0.9rem;">Answer 2 quick questions to get your personalized cognitive study configuration.</p>
+                    </div>
+                    <span class="badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">Diagnostic Test</span>
+                </div>
+
+                <div id="quizContainer">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="font-size: 0.9rem; color: #818cf8; display: block; margin-bottom: 0.6rem; font-weight: 600;">Question 1: What is your primary learning goal?</label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem;">
+                            <button class="quiz-option-btn q1-btn active-quiz" data-val="exam">🎯 Prepare for an upcoming exam / test</button>
+                            <button class="quiz-option-btn q1-btn" data-val="mastery">🧠 Deep long-term subject mastery</button>
+                            <button class="quiz-option-btn q1-btn" data-val="quick">⚡ Fast 1-day revision before deadline</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="font-size: 0.9rem; color: #818cf8; display: block; margin-bottom: 0.6rem; font-weight: 600;">Question 2: What environment helps you focus best?</label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem;">
+                            <button class="quiz-option-btn q2-btn" data-val="rain">🌧️ Rain & Water Audio Ambience</button>
+                            <button class="quiz-option-btn q2-btn active-quiz" data-val="alpha">🎧 10Hz Alpha Waves Binaural Beats</button>
+                            <button class="quiz-option-btn q2-btn" data-val="brown">🟤 Deep Brown Noise Focus</button>
+                        </div>
+                    </div>
+
+                    <button id="submitQuizBtn" class="cta-button" style="width: 100%; padding: 0.75rem; margin-top: 0.5rem;">Calculate Optimal Strategy</button>
+                </div>
+
+                <div id="quizResultArea" style="display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(99,102,241,0.3); padding: 1.2rem; border-radius: 14px;">
+                    <!-- Quiz Result -->
+                </div>
+            </section>
+
+            <!-- Feature Showcase Cards Grid -->
+            <section>
+                <div style="text-align: center; margin-bottom: 2.5rem;">
+                    <h3 style="font-size: 2.2rem; background: linear-gradient(to right, #fff, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Built for Students & Lifelong Learners
+                    </h3>
+                    <p style="color: #a3a3a3; max-width: 580px; margin: 0.5rem auto 0; font-size: 0.95rem;">
+                        Explore our full suite of active recall, spaced repetition, note summarization, and ambient focus tools.
+                    </p>
+                </div>
+
+                <div class="feature-grid-home">
+                    <div class="home-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+                        <h4 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">Spaced Repetition Engine</h4>
+                        <p style="color: #a3a3a3; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.2rem;">
+                            SuperMemo SM-2 interval calculator with dynamic memory decay bars and multi-format exports (Excel, Word, iCal).
+                        </p>
+                        <a href="study-plan.html#spacedRepetitionCard" style="color: #818cf8; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center;">
+                            Open Repetition Engine →
+                        </a>
+                    </div>
+
+                    <div class="home-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎴</div>
+                        <h4 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">Active Recall Flashcards</h4>
+                        <p style="color: #a3a3a3; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.2rem;">
+                            Generate custom 2 to 15 Q&A flashcards or paste raw lecture notes to extract cards instantly.
+                        </p>
+                        <a href="tools.html#flashcardCard" style="color: #818cf8; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center;">
+                            Generate Flashcards →
+                        </a>
+                    </div>
+
+                    <div class="home-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📄</div>
+                        <h4 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">Smart Note Summarizer</h4>
+                        <p style="color: #a3a3a3; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.2rem;">
+                            Extract key takeaways, executive summaries, mind-maps, or quiz questions from long textbook notes.
+                        </p>
+                        <a href="tools.html#summarizerCard" style="color: #818cf8; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center;">
+                            Summarize Notes →
+                        </a>
+                    </div>
+
+                    <div class="home-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎵</div>
+                        <h4 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">12 Ambient Soundscapes</h4>
+                        <p style="color: #a3a3a3; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.2rem;">
+                            Synthesize real-time focus audio: Rain, 10Hz Alpha Waves, 40Hz Gamma Focus, Forest Birds, Ocean, and Cosmic Drones.
+                        </p>
+                        <a href="tools.html#soundscapesCard" style="color: #818cf8; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center;">
+                            Listen Soundscapes →
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 THINKR AI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⚙️ THINKR Settings & API Key</h3>
+                <button id="closeSettingsBtn" class="close-btn">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <p style="font-size: 0.9rem; color: #a3a3a3; margin-bottom: 1rem;">
+                    Configure your <strong>Google Gemini API Key</strong> to unlock live generative AI reasoning across the Chatbot, Note Summarizer, and Feynman Assistant.
+                </p>
+                <div class="form-group">
+                    <label for="geminiApiKeyInput">Google Gemini API Key</label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." style="font-family: monospace;">
+                </div>
+                <div id="apiKeyStatus" style="font-size: 0.8rem; margin-bottom: 1.2rem;">Checking status...</div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                    <button id="saveSettingsBtn" class="cta-button" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Home Page Live Focus Timer Handler
+            let homeTimerSecs = 25 * 60;
+            let homeTimerInterval = null;
+            const timerDigits = document.getElementById('homeTimerDigits');
+            const timerLabel = document.getElementById('homeTimerLabel');
+            const startBtn = document.getElementById('homeTimerStartBtn');
+            const resetBtn = document.getElementById('homeTimerResetBtn');
+            const customInput = document.getElementById('homeCustomMinsInput');
+            const setCustomBtn = document.getElementById('setHomeCustomMinsBtn');
+
+            function updateHomeDigits() {
+                const mins = Math.floor(homeTimerSecs / 60);
+                const secs = homeTimerSecs % 60;
+                if (timerDigits) {
+                    timerDigits.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+            }
+
+            // Preset Duration Buttons
+            document.querySelectorAll('.home-preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.home-preset-btn').forEach(b => {
+                        b.classList.remove('active-preset');
+                        b.style.background = '';
+                        b.style.borderColor = '';
+                    });
+                    btn.classList.add('active-preset');
+                    btn.style.background = 'rgba(99,102,241,0.3)';
+                    btn.style.borderColor = '#6366f1';
+
+                    const mins = parseInt(btn.getAttribute('data-mins')) || 25;
+                    if (homeTimerInterval) {
+                        clearInterval(homeTimerInterval);
+                        homeTimerInterval = null;
+                    }
+                    homeTimerSecs = mins * 60;
+                    if (customInput) customInput.value = mins;
+                    if (timerLabel) timerLabel.textContent = `${mins}m Focus`;
+                    updateHomeDigits();
+                    if (startBtn) {
+                        startBtn.textContent = 'Start Timer';
+                        startBtn.style.background = '';
+                    }
+                });
+            });
+
+            if (setCustomBtn && customInput) {
+                setCustomBtn.addEventListener('click', () => {
+                    const mins = Math.max(1, Math.min(180, parseInt(customInput.value) || 25));
+                    if (homeTimerInterval) {
+                        clearInterval(homeTimerInterval);
+                        homeTimerInterval = null;
+                    }
+                    homeTimerSecs = mins * 60;
+                    if (timerLabel) timerLabel.textContent = `${mins}m Custom Focus`;
+                    updateHomeDigits();
+                    if (startBtn) {
+                        startBtn.textContent = 'Start Timer';
+                        startBtn.style.background = '';
+                    }
+                });
+            }
+
+            if (startBtn) {
+                startBtn.addEventListener('click', () => {
+                    if (homeTimerInterval) {
+                        clearInterval(homeTimerInterval);
+                        homeTimerInterval = null;
+                        startBtn.textContent = 'Start Timer';
+                        startBtn.style.background = '';
+                    } else {
+                        startBtn.textContent = 'Pause Timer';
+                        startBtn.style.background = '#ef4444';
+                        homeTimerInterval = setInterval(() => {
+                            if (homeTimerSecs > 0) {
+                                homeTimerSecs--;
+                                updateHomeDigits();
+                            } else {
+                                clearInterval(homeTimerInterval);
+                                homeTimerInterval = null;
+                                startBtn.textContent = 'Start Timer';
+                                alert('🔔 Pomodoro Focus Block Complete! Take a 5-minute break.');
+                            }
+                        }, 1000);
+                    }
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (homeTimerInterval) {
+                        clearInterval(homeTimerInterval);
+                        homeTimerInterval = null;
+                    }
+                    const activeBtn = document.querySelector('.home-preset-btn.active-preset');
+                    const mins = activeBtn ? parseInt(activeBtn.getAttribute('data-mins')) || 25 : 25;
+                    homeTimerSecs = mins * 60;
+                    updateHomeDigits();
+                    if (startBtn) {
+                        startBtn.textContent = 'Start Timer';
+                        startBtn.style.background = '';
+                    }
+                });
+            }
+
+            // 2. Instant Subject Pathway Sandbox
+            const demoBtn = document.getElementById('demoGenerateBtn');
+            const demoInput = document.getElementById('demoTopicInput');
+            const demoOutput = document.getElementById('demoOutputArea');
+
+            const TOPIC_ROADMAPS = {
+                'java': [
+                    { name: 'JVM Architecture & Memory Model', tech: 'Stack, Heap, Method Area & JIT Compiler' },
+                    { name: 'Object-Oriented Programming', tech: 'Polymorphism, Inheritance & Encapsulation' },
+                    { name: 'Java Collections Framework', tech: 'ArrayList, HashMap & ConcurrentHashMap' },
+                    { name: 'Multithreading & Concurrency', tech: 'Executors, ReentrantLock & Volatile' },
+                    { name: 'Garbage Collection Tuning', tech: 'G1, ZGC & Memory Leak Debugging' }
+                ],
+                'python': [
+                    { name: 'Memory & CPython Execution', tech: 'Reference Counting, Bytecode & GIL' },
+                    { name: 'Advanced Data Structures', tech: 'Lists, Dicts, Sets & List Comprehensions' },
+                    { name: 'OOP & Functional Patterns', tech: 'Decorators, Generators & Context Managers' },
+                    { name: 'Asynchronous Programming', tech: 'asyncio, Event Loop & Coroutines' },
+                    { name: 'Data & ML Libraries', tech: 'NumPy, Pandas & PyTorch Basics' }
+                ],
+                'dbms': [
+                    { name: 'Relational Database Principles', tech: 'Tables, Primary/Foreign Keys & DDL/DML' },
+                    { name: 'B-Tree & B+ Tree Indexing', tech: 'Logarithmic O(log N) Query Speedup' },
+                    { name: 'ACID & Concurrency Control', tech: 'Transactions, Lock Escalation & Isolation' },
+                    { name: 'Schema Normalization', tech: '1NF, 2NF, 3NF & BCNF Normalization' },
+                    { name: 'Distributed Scale & WAL', tech: 'Sharding, Replication & Write-Ahead Logs' }
+                ],
+                'operating system': [
+                    { name: 'Kernel Mode & Privileges', tech: 'Ring 0 vs Ring 3 & System Calls' },
+                    { name: 'CPU Process Scheduling', tech: 'Round Robin, Context Switch & Coffman Conditions' },
+                    { name: 'Virtual Memory Paging', tech: 'Page Tables, TLB Hits & Page Faults' },
+                    { name: 'Inter-Process Communication', tech: 'Shared Memory, Pipes & Semaphores' },
+                    { name: 'File System Architecture', tech: 'Inodes, Block Allocation & Storage Drivers' }
+                ]
+            };
+
+            if (demoBtn && demoInput && demoOutput) {
+                demoBtn.addEventListener('click', () => {
+                    const rawInput = demoInput.value.trim().toLowerCase() || "java";
+                    const formattedTitle = demoInput.value.trim() || "Java Programming";
+
+                    demoBtn.textContent = 'Building Roadmap...';
+                    demoOutput.style.display = 'block';
+                    demoOutput.innerHTML = '<div style="color:#a3a3a3; text-align:center; padding:1rem;">⚡ Synthesizing cognitive pathway for ' + formattedTitle + '...</div>';
+
+                    setTimeout(() => {
+                        demoBtn.textContent = 'Generate Roadmap';
+
+                        let modules = null;
+                        for (const key in TOPIC_ROADMAPS) {
+                            if (rawInput.includes(key)) {
+                                modules = TOPIC_ROADMAPS[key];
+                                break;
+                            }
+                        }
+
+                        if (!modules) {
+                            const capitalName = formattedTitle.charAt(0).toUpperCase() + formattedTitle.slice(1);
+                            modules = [
+                                { name: `Core Principles of ${capitalName}`, tech: 'Foundational Definitions & Scope' },
+                                { name: `Operational Mechanics of ${capitalName}`, tech: 'Execution Flow & System State' },
+                                { name: `Key Algorithms & Trade-offs`, tech: 'Time & Space Complexity Analysis' },
+                                { name: `Real-world Applications of ${capitalName}`, tech: 'Production Implementation Patterns' },
+                                { name: `Advanced Active Recall Drill`, tech: 'Self-Testing & Spaced Review' }
+                            ];
+                        }
+
+                        let html = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                            <h4 style="color:#818cf8; font-size:1.15rem;">🎯 Cognitive Mastery Roadmap for "${formattedTitle}":</h4>
+                            <span class="badge" style="background:rgba(99,102,241,0.2); color:#818cf8;">5 Focused Modules</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:0.8rem;">`;
+
+                        modules.forEach((mod, i) => {
+                            const colors = ['#818cf8', '#10b981', '#c084fc', '#f59e0b', '#3b82f6'];
+                            const curColor = colors[i % colors.length];
+                            html += `
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-left:4px solid ${curColor}; padding:0.9rem; border-radius:10px;">
+                                    <div style="font-size:0.75rem; color:${curColor}; font-weight:700;">MODULE ${i+1} (25 MINS)</div>
+                                    <div style="font-weight:700; color:#fff; margin:0.3rem 0; font-size:0.9rem;">${mod.name}</div>
+                                    <div style="font-size:0.78rem; color:#a3a3a3;">${mod.tech}</div>
+                                </div>
+                            `;
+                        });
+
+                        const targetUrl = `study-plan.html?subject=${encodeURIComponent(formattedTitle)}`;
+
+                        html += `</div>
+                        <div style="margin-top:1.2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.25); padding:0.8rem 1.2rem; border-radius:12px;">
+                            <div style="font-size:0.85rem; color:#d4d4d4;">
+                                🚀 Ready to track this schedule with live timers & flashcards?
+                            </div>
+                            <a href="${targetUrl}" class="cta-button" style="padding:0.5rem 1.2rem; font-size:0.85rem; text-decoration:none; display:inline-block;">Build Full Schedule in Workspace →</a>
+                        </div>`;
+
+                        demoOutput.innerHTML = html;
+                    }, 400);
+                });
+            }
+
+            // 3. Student Diagnostic Quiz Handler (Radio behavior fix)
+            let selectedQ1 = "exam";
+            let selectedQ2 = "alpha";
+
+            document.querySelectorAll('.q1-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.q1-btn').forEach(b => b.classList.remove('active-quiz'));
+                    btn.classList.add('active-quiz');
+                    selectedQ1 = btn.getAttribute('data-val');
+                });
+            });
+
+            document.querySelectorAll('.q2-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.q2-btn').forEach(b => b.classList.remove('active-quiz'));
+                    btn.classList.add('active-quiz');
+                    selectedQ2 = btn.getAttribute('data-val');
+                });
+            });
+
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const quizResultArea = document.getElementById('quizResultArea');
+
+            if (submitQuizBtn && quizResultArea) {
+                submitQuizBtn.addEventListener('click', () => {
+                    submitQuizBtn.textContent = 'Calculating Optimal Strategy...';
+                    setTimeout(() => {
+                        submitQuizBtn.textContent = 'Calculate Optimal Strategy';
+                        quizResultArea.style.display = 'block';
+
+                        let strategyName = "Pomodoro 25m Focus Sprint";
+                        let audioRec = "🎧 10Hz Alpha Waves Binaural Beats";
+                        let techniqueRec = "🎴 Active Recall Flashcards & SuperMemo SM-2 Spaced Repetition";
+                        let strategyVal = "pomodoro_25";
+                        let techVal = "active_recall";
+
+                        if (selectedQ1 === 'mastery') {
+                            strategyName = "Deep Work 50m Sprint";
+                            techniqueRec = "✍️ Feynman Technique Simple Explanation & Spaced Repetition";
+                            strategyVal = "deep_50";
+                            techVal = "feynman";
+                        } else if (selectedQ1 === 'quick') {
+                            strategyName = "Standard 45m Revision Block";
+                            techniqueRec = "⚡ Practice Exercises & Note Summarizer Bullet Points";
+                            strategyVal = "standard_45";
+                            techVal = "active_recall";
+                        }
+
+                        if (selectedQ2 === 'rain') audioRec = "🌧️ Gentle Rain Audio Ambience";
+                        else if (selectedQ2 === 'brown') audioRec = "🟤 Deep Brown Noise Focus";
+
+                        const quizTargetUrl = `study-plan.html?subject=${encodeURIComponent("Diagnostic Revision")}&strategy=${strategyVal}&technique=${techVal}`;
+
+                        quizResultArea.innerHTML = `
+                            <h4 style="color:#818cf8; font-size:1.1rem; margin-bottom:0.6rem;">🎯 Your Recommended Study Strategy:</h4>
+                            <div style="font-size:0.9rem; line-height:1.6; color:#d4d4d4;">
+                                <div>⏱️ <strong>Interval Strategy:</strong> ${strategyName}</div>
+                                <div>🎵 <strong>Audio Soundscape:</strong> ${audioRec}</div>
+                                <div>🧠 <strong>Cognitive Method:</strong> ${techniqueRec}</div>
+                            </div>
+                            <div style="margin-top:1rem; text-align:right;">
+                                <a href="${quizTargetUrl}" class="cta-button" style="padding:0.5rem 1.2rem; font-size:0.85rem; text-decoration:none; display:inline-block;">Apply Config in Workspace →</a>
+                            </div>
+                        `;
+                    }, 350);
+                });
+            }
+        });
+    </script>
+
+    <!-- AI Agent Widget -->
+    <div id="ai-agent-widget" class="ai-agent-widget">
+        <div class="agent-chat-window" id="agentChatWindow">
+            <div class="agent-header">
+                <div class="agent-status-orb"></div>
+                <span>THINKR Core</span>
+                <button id="closeAgentBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="agent-messages" id="agentMessages"></div>
+            <div class="agent-input-area">
+                <input type="text" id="agentInput" placeholder="Ask THINKR...">
+                <button id="agentSendBtn">Send</button>
+            </div>
+        </div>
+        <div class="agent-trigger" id="agentTrigger">
+            <div class="agent-trigger-orb"></div>
+        </div>
+    </div>
+</body>
+</html>
