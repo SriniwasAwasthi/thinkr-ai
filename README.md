@@ -307,19 +307,21 @@ May THINKR AI bring immense joy, crystal clarity, and boundless inspiration to y
 
 ---
 
-## 💖 Thank You for Visiting!
+---
 
-> *"Thank you so much for taking the time to explore THINKR AI!"* 🌟
+## 💖 Thank You for Exploring THINKR AI!
 
-Taking your precious time to inspect this project, walk through the features, and review my code means the world to me. Every single repository I build is an opportunity to learn, innovate, and push the boundaries of software engineering.
+> *"Transforming study overload into structured, stress-free mastery."* 🧠
 
-- 🌟 **Enjoyed the project?** Feel free to leave a **Star** on this repository—your support provides immense motivation to keep building exciting projects!
-- 📬 **Let's Connect:** I am always open to constructive feedback, technical discussions, and exciting engineering opportunities. Feel free to explore my other repositories or connect with me directly on [GitHub](https://github.com/SriniwasAwasthi).
+Thank you for taking the time to inspect THINKR AI! Developing an intelligent, adaptive scheduler that balances spaced repetition, cognitive rest intervals, and real-time AI guidance was designed to help students overcome study burnout. Your interest and feedback mean the world to me.
 
-*Wishing you a wonderful day ahead, and thank you once again for stopping by!* ✨
+- 🌟 **Found the algorithm & scheduling logic smart?** Leave a star to support AI-driven study tools!
+- 📬 **Let's Connect:** I welcome technical discussions on intelligent scheduling algorithms, AI mentoring, and student ed-tech. Connect on [GitHub](https://github.com/SriniwasAwasthi).
+
+*Wishing you stress-free learning, sharp focus, and all the best in your journey!* ✨
 
 ---
 
 <div align="center">
-  <sub>Crafted with passion by <a href="https://github.com/SriniwasAwasthi">Sriniwas Awasthi</a>.</sub>
+  <sub>Engineered for smarter, healthier learning by <a href="https://github.com/SriniwasAwasthi">Sriniwas Awasthi</a>.</sub>
 </div>
