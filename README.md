@@ -90,30 +90,6 @@ Traditional study tools are static text repositories. THINKR AI introduces **Act
 
 THINKR AI follows a lightweight, modular Client-Server architecture powered by **Python Flask** on the backend and **Modern Native JavaScript / Glassmorphism Vanilla CSS** on the frontend.
 
-```mermaid
-graph TD
-    User([🎓 Student / Professional User]) --> Frontend[🌐 Modern Web UI - HTML5 / CSS3 / ES6+]
-    
-    subgraph Frontend Architecture
-        Frontend --> Router[Navigation & Query Parameter Parser]
-        Frontend --> SoundEngine[🎵 Web Audio API Sound Synthesizer]
-        Frontend --> MemoryEngine[📅 SuperMemo SM-2 Retention Engine]
-        Frontend --> FlashcardEngine[🎴 3D Active Recall Card Player]
-        Frontend --> SVGProgress[🎯 SVG Quota Circular Progress Ring]
-    end
-
-    subgraph Backend & AI Layer
-        Router --> FlaskServer[🐍 Flask Backend Server - app.py]
-        FlaskServer --> GeminiAPI[🤖 Google Gemini AI API]
-        FlaskServer --> LocalKnowledge[🧠 Fallback Academic Knowledge Engine]
-    end
-
-    subgraph Persistence & Exports
-        MemoryEngine --> LocalStorage[(💾 Browser localStorage)]
-        MemoryEngine --> ExportEngine[📊 Multi-Format Exporters: CSV, DOC, ICS]
-    end
-```
-
 ---
 
 ## 📂 Folder Structure
@@ -139,6 +115,17 @@ THINKR_AI/
 ```
 
 ---
+
+## 🏛️ System Architecture
+
+```mermaid
+graph LR
+    Student["🎓 Learner"] --> Planner["🧠 THINKR AI Study Engine"]
+    Planner --> ExamDate["📅 Target Exam & Milestone Parser"]
+    Planner --> SpacedAlg["⏳ Spaced Repetition Scheduling Engine"]
+    Planner --> Tutor["🤖 Real-Time AI Study Support"]
+    Planner --> Export["📄 Exportable Study Calendar"]
+```
 
 ## 💻 Technology Stack
 
@@ -252,7 +239,6 @@ else if (level === 5) interval = 30;// Mastered
 > - **Zero Backend Transmission:** The Flask backend server (`app.py`) never stores, logs, or transmits your API keys.
 > - **GitHub Safe:** No API keys are hardcoded in this codebase or pushed to GitHub.
 
-
 ---
 
 ## 🖼️ Application UI Gallery
@@ -292,36 +278,16 @@ Contributions are always welcome! Feel free to open issues or submit pull reques
 
 ---
 
-## 🙏 A Heartfelt Note of Gratitude 💖✨🌈
-
-> *"Time is the most precious gift anyone can share. Thank you from the bottom of my heart for spending yours right here."* 🌟💫
-
-To everyone visiting **THINKR AI**—welcome, and thank you so very much! 🌸🌼✨
-
-Building this platform has been a labor of true love, passion, and relentless dedication to the art of learning. 📜💡🔮 Every line of code, every ambient soundscape, and every cognitive tool in this repository was crafted with deep care to create a warm, empowering, charismatic, and delightful experience for you. 🎨⚡🎆
-
-May THINKR AI bring immense joy, crystal clarity, and boundless inspiration to your journey! 🚀🏆☀️ If this project brought a warm smile to your face, sparked a new creative idea, or made your day a little brighter, then it has fulfilled its highest purpose. 😊 ⭐ 🤝🌺
-
-**With endless gratitude, warmth, and respect,**  
-*Keep learning, keep shining, and unlock your extraordinary potential!* 🎓 💖✨🚀🌟
-
 ---
 
----
+## 💖 Thank You for Visiting & Exploring 🧠 THINKR AI — The Future of Cognitive Intelligence & Accelerated Learning!
 
-## 💖 Thank You for Exploring THINKR AI!
+> *"Thank you for taking the time to explore this project! Continuous learning, clean craftsmanship, and solving real-world challenges through elegant software are at the core of my developer journey."* 🚀
 
-> *"Transforming study overload into structured, stress-free mastery."* 🧠
-
-Thank you for taking the time to inspect THINKR AI! Developing an intelligent, adaptive scheduler that balances spaced repetition, cognitive rest intervals, and real-time AI guidance was designed to help students overcome study burnout. Your interest and feedback mean the world to me.
-
-- 🌟 **Found the algorithm & scheduling logic smart?** Leave a star to support AI-driven study tools!
-- 📬 **Let's Connect:** I welcome technical discussions on intelligent scheduling algorithms, AI mentoring, and student ed-tech. Connect on [GitHub](https://github.com/SriniwasAwasthi).
-
-*Wishing you stress-free learning, sharp focus, and all the best in your journey!* ✨
+* 🌟 **Enjoyed this project?** If you found this repository interesting or helpful, please consider giving it a **Star**!
+* 📬 **Let's Connect & Collaborate:** I am actively seeking engineering opportunities, impactful internships, and open-source collaborations. Feel free to connect via [GitHub](https://github.com/SriniwasAwasthi) or [Email](mailto:sriawasthi164@gmail.com).
 
 ---
-
 <div align="center">
-  <sub>Engineered for smarter, healthier learning by <a href="https://github.com/SriniwasAwasthi">Sriniwas Awasthi</a>.</sub>
+  <sub>Designed & Crafted with Passion by <a href="https://github.com/SriniwasAwasthi"><strong>Sriniwas Awasthi</strong></a> • Continuous Learner & Software Engineer</sub>
 </div>
