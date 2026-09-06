@@ -164,7 +164,7 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
-The server will start on `http://localhost:3000`. Open your browser to explore!
+The development server will start immediately. Open your browser to explore!
 
 ---
 
